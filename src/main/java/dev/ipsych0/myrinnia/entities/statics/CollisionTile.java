@@ -1,17 +1,19 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 
 import java.awt.*;
 import java.util.Map;
 
-public class CollisionTile extends StaticEntity {
+public class CollisionTile extends Entity {
 
     public CollisionTile(double x, double y, int width, int height, Map<String,String> props) {
         super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = false;
+        staticNpc = true;
         respawnTime = 1L;
         overlayDrawn = false;
     }

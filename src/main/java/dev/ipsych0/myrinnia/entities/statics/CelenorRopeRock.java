@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
@@ -13,7 +14,7 @@ import java.awt.*;
 import java.util.Map;
 
 @Slf4j
-public class CelenorRopeRock extends StaticEntity {
+public class CelenorRopeRock extends Entity {
 
     private Player player;
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
@@ -24,6 +25,7 @@ public class CelenorRopeRock extends StaticEntity {
         solid = true;
         attackable = false;
         isNpc = true;
+        staticNpc = true;
         player = Handler.get().getPlayer();
     }
 

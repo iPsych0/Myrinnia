@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
@@ -9,7 +10,7 @@ import dev.ipsych0.myrinnia.quests.QuestList;
 import java.awt.*;
 import java.util.Map;
 
-public class CelenorMushroom extends StaticEntity {
+public class CelenorMushroom extends Entity {
 
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
 
@@ -18,6 +19,7 @@ public class CelenorMushroom extends StaticEntity {
         solid = true;
         attackable = false;
         isNpc = true;
+        staticNpc = true;
     }
 
     @Override

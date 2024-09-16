@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.equipment.EquipmentSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -18,7 +19,7 @@ import java.util.Map;
 
 import static java.util.Map.entry;
 
-public class Tree extends StaticEntity {
+public class Tree extends Entity {
 
 
     private static final long serialVersionUID = -524381157898161854L;
@@ -78,6 +79,7 @@ public class Tree extends StaticEntity {
 
         isNpc = true;
         attackable = false;
+        staticNpc = true;
 
         if (name.equalsIgnoreCase("Weak Palm Tree")) {
             logs = Item.palmWood;

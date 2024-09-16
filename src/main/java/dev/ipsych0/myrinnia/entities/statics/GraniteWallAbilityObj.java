@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class GraniteWallAbilityObj extends StaticEntity {
+public class GraniteWallAbilityObj extends Entity {
 
     private double degrees;
     private Shape transformedShape;
@@ -26,6 +27,7 @@ public class GraniteWallAbilityObj extends StaticEntity {
     public GraniteWallAbilityObj(double x, double y, int width, int height, Map<String,String> props) {
         super(x, y, width, height, props);
         solid = true;
+        staticNpc = true;
         hasPolyBounds = true;
         setOverlayDrawn(false);
         this.animation = new Animation(64, Assets.graniteWall, true);

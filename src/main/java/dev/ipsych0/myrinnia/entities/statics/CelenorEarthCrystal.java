@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +10,7 @@ import java.awt.*;
 import java.util.Map;
 
 @Slf4j
-public class CelenorEarthCrystal extends StaticEntity {
+public class CelenorEarthCrystal extends Entity {
 
     public static boolean puzzleCompleted;
     private boolean abilitiesReceived;
@@ -21,6 +22,8 @@ public class CelenorEarthCrystal extends StaticEntity {
         solid = true;
         attackable = false;
         isNpc = true;
+        staticNpc = true;
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.puzzles.PotionSort;
@@ -15,7 +16,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 @Slf4j
-public class CelenorPotionCabinet extends StaticEntity {
+public class CelenorPotionCabinet extends Entity {
 
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
     private boolean hasMovedLeft, isMovingLeft;
@@ -30,6 +31,7 @@ public class CelenorPotionCabinet extends StaticEntity {
         solid = true;
         attackable = false;
         isNpc = true;
+        staticNpc = true;
 
         player = Handler.get().getPlayer();
         potionSort = new PotionSort((Action & Serializable) () -> {

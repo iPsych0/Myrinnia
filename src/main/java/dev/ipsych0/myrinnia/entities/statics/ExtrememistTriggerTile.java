@@ -30,6 +30,7 @@ public class ExtrememistTriggerTile extends GenericObject {
         solid = false;
         attackable = false;
         isNpc = false;
+        staticNpc = true;
         player = Handler.get().getPlayer();
         setOverlayDrawn(false);
 

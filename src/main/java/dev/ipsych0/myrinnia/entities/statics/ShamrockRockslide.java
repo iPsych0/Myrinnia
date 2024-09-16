@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-public class ShamrockRockslide extends StaticEntity {
+public class ShamrockRockslide extends Entity {
 
     private Quest quest = Handler.get().getQuest(QuestList.WeDelvedTooDeep);
     private Animation explosion = new Animation(250, Assets.eruption1, true);
@@ -30,6 +30,8 @@ public class ShamrockRockslide extends StaticEntity {
         solid = true;
         attackable = false;
         isNpc = true;
+        staticNpc = true;
+
         quest.addNewCheck("dynamitePlaced", dynamitePlaced);
     }
 

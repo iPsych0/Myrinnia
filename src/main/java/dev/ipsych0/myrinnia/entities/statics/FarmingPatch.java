@@ -50,6 +50,7 @@ public class FarmingPatch extends GenericObject {
         solid = false;
         attackable = false;
         isNpc = true;
+        staticNpc = true;
     }
 
     private FarmingUI getUIForCategory() {

@@ -18,7 +18,7 @@ import java.awt.*;
 import java.util.Map;
 
 @Slf4j
-public class ShamrockSinkhole extends StaticEntity {
+public class ShamrockSinkhole extends Entity {
 
     private boolean cutsceneStarted;
     private boolean hasSpawnedTrolls;
@@ -30,6 +30,7 @@ public class ShamrockSinkhole extends StaticEntity {
         solid = true;
         attackable = false;
         isNpc = true;
+        staticNpc = true;
 
         this.name = "Sinkhole";
         this.script = Utils.loadScript("shamrock_sinkhole.json");

@@ -379,8 +379,8 @@ public class Player extends Creature {
      */
     @Override
     protected void tickProjectiles() {
-        if (projectiles.size() < 1) {
-            if (toBeAdded.size() < 1) {
+        if (projectiles.isEmpty()) {
+            if (toBeAdded.isEmpty()) {
                 return;
             }
         }
@@ -404,7 +404,7 @@ public class Player extends Creature {
                 if (e.equals(this)) {
                     continue;
                 }
-                if (e.getVerticality() == this.verticality && e.isSolid() && p.getCollisionBounds(0, 0).intersects(e.getFullBounds(0, 0)) && p.isActive()) {
+                if (e.getVerticality() == this.verticality && p.getCollisionBounds(0, 0).intersects(e.getFullBounds(0, 0)) && p.isActive()) {
                     if (!e.isAttackable()) {
                         p.setActive(false);
                     }

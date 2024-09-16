@@ -22,6 +22,7 @@ public class CelenorShrineBook extends GenericObject {
         solid = false;
         attackable = false;
         isNpc = true;
+        staticNpc = true;
 
         bookUI = new BookUI(BookUI.PageType.FULL_BOOK, this.name, content);
     }

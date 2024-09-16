@@ -1,15 +1,18 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
+import dev.ipsych0.myrinnia.entities.Entity;
+
 import java.awt.*;
 import java.util.Map;
 
-public class ShamrockStatue extends StaticEntity {
+public class ShamrockStatue extends Entity {
 
     public ShamrockStatue(double x, double y, int width, int height, Map<String,String> props) {
         super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;
+        staticNpc = true;
 
         String text = script.getDialogues().get(0).getText();
         String newText = text.replace("{name}", name.replace("Statue of", ""));

@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.quests.Quest;
@@ -10,7 +11,7 @@ import dev.ipsych0.myrinnia.tiles.Tile;
 import java.awt.*;
 import java.util.Map;
 
-public class RockClimb extends StaticEntity {
+public class RockClimb extends Entity {
 
     private Creature.Direction direction;
     private Player player;
@@ -21,6 +22,7 @@ public class RockClimb extends StaticEntity {
         solid = true;
         attackable = false;
         isNpc = true;
+        staticNpc = true;
         player = Handler.get().getPlayer();
     }
 

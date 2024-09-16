@@ -9,7 +9,7 @@ import dev.ipsych0.myrinnia.worlds.Zone;
 import java.awt.*;
 import java.util.Map;
 
-public class BountyBoardShamrock extends BountyBoard {
+public class BountyBoardShamrock extends Entity implements BountyBoard {
 
     private static final long serialVersionUID = 4925882540927003315L;
 
@@ -26,6 +26,7 @@ public class BountyBoardShamrock extends BountyBoard {
 
         attackable = false;
         isNpc = true;
+        staticNpc = true;
 
         bountyBoardUI = new BountyBoardUI(Zone.ShamrockTown);
         bountyBoardUI.addPanel(2, "It's mine", "My mining equipment was stolen. Please help me retrieve it.", "Hi, brave adventurer.\nLast night, some of my equipment was stolen. Could you find out whoever did this and retrieve my equipment? Someone in town might have witnessed something.\n\nI will await your return near the town square.\n\n- Edgar");

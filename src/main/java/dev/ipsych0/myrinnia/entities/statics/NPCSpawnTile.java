@@ -38,6 +38,7 @@ public class NPCSpawnTile extends Creature {
         attackable = false;
         isNpc = false;
         walker = false;
+        staticNpc = true;
         setOverlayDrawn(false);
 
         coords = new ArrayList<>();

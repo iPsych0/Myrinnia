@@ -11,6 +11,7 @@ public class StozarAncientRocks extends GenericObject {
 
     public StozarAncientRocks(double x, double y, int width, int height, Map<String,String> props) {
         super(x, y, width, height, props);
+        staticNpc = true;
     }
 
     @Override

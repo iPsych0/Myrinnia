@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ClamFishingSpot extends StaticEntity {
+public class ClamFishingSpot extends Entity {
 
 
     private static final long serialVersionUID = -4511991258183891329L;
@@ -38,6 +39,8 @@ public class ClamFishingSpot extends StaticEntity {
 
         isNpc = true;
         attackable = false;
+        staticNpc = true;
+
         spinning = new Animation(125, Assets.whirlpool);
 
         clam = Item.clam;

@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.npcs.StozarPhyrrus;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -13,7 +14,7 @@ import java.awt.*;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class Torch extends StaticEntity {
+public class Torch extends Entity {
 
     private final Animation flameAnimation;
     private boolean lit;
@@ -25,6 +26,7 @@ public class Torch extends StaticEntity {
         solid = false;
         attackable = false;
         isNpc = true;
+        staticNpc = true;
 
         flameAnimation = new Animation(125, Assets.torchFlame);
     }

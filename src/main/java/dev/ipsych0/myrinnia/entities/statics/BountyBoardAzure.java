@@ -1,17 +1,19 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestStep;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
+import dev.ipsych0.myrinnia.skills.ui.BountyManager;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 import java.util.List;
 import java.util.Map;
 
-public class BountyBoardAzure extends BountyBoard {
+public class BountyBoardAzure extends Entity implements BountyBoard {
 
     private static final long serialVersionUID = 4925882540927003315L;
 
@@ -27,9 +29,12 @@ public class BountyBoardAzure extends BountyBoard {
 
         attackable = false;
         isNpc = true;
+        staticNpc = true;
 
         bountyBoardUI = new BountyBoardUI(Zone.PortAzure);
         bountyBoardUI.addPanel(1, "Cut the Crab", "A giant crab attacked me in Sunset Cove! I lost my axe. Someone please help!", "I was attacked by a giant crab in Sunset Cove, north-west of Port Azure! When I fled, I left behind my axe. Someone please retrieve my axe, you will be rewarded. I will be waiting just north-west of Port Azure.\n\n- Ryan");
+
+        BountyManager.get().addBoard(this);
     }
 
     @Override

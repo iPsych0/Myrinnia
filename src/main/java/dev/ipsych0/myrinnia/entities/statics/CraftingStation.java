@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
@@ -11,7 +12,7 @@ import java.awt.*;
 import java.util.Map;
 
 @Slf4j
-public class CraftingStation extends StaticEntity {
+public class CraftingStation extends Entity {
 
     private static final long serialVersionUID = -8804679431303966524L;
 
@@ -20,6 +21,7 @@ public class CraftingStation extends StaticEntity {
 
         attackable = false;
         isNpc = true;
+        staticNpc = true;
     }
 
     @Override

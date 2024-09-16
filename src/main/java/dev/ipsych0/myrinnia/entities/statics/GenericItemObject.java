@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class GenericItemObject extends StaticEntity {
+public class GenericItemObject extends Entity {
 
     private List<ItemStack> items = new ArrayList<>();
     private boolean hasGivenItems;
@@ -20,6 +21,8 @@ public class GenericItemObject extends StaticEntity {
         solid = false;
         attackable = false;
         isNpc = true;
+        staticNpc = true;
+
         collision = new Rectangle();
 
         if (shopItemsFile == null) {

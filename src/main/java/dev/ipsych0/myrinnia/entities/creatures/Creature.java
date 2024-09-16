@@ -690,8 +690,8 @@ public abstract class Creature extends Entity {
     }
 
     protected void tickProjectiles() {
-        if (projectiles.size() < 1) {
-            if (toBeAdded.size() < 1) {
+        if (projectiles.isEmpty()) {
+            if (toBeAdded.isEmpty()) {
                 return;
             }
         }

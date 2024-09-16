@@ -11,6 +11,7 @@ import dev.ipsych0.myrinnia.entities.npcs.ChoiceCondition;
 import dev.ipsych0.myrinnia.entities.npcs.Dialogue;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.publishers.KillPublisher;
 import dev.ipsych0.myrinnia.utils.Colors;
@@ -22,6 +23,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -122,9 +124,21 @@ public abstract class Entity implements Serializable {
 
     public abstract void respawn();
 
-    protected abstract String[] getEntityInfo(Entity hoveringEntity);
-
     protected abstract void updateDialogue();
+
+    protected String[] getEntityInfo(Entity hoveringEntity) {
+        if (script != null || isNpc) {
+            String[] name = new String[2];
+            name[0] = hoveringEntity.getName();
+            String interactKey = KeyManager.interactKey == 0x20 ? "Space" : KeyEvent.getKeyText(KeyManager.interactKey);
+            name[1] = "Press '" + interactKey + "' to interact";
+            return name;
+        }
+        String[] name = new String[2];
+        name[0] = hoveringEntity.getName();
+        name[1] = "HP: " + (int) health + "/" + maxHealth;
+        return name;
+    }
 
     public String getName() {
         return name;

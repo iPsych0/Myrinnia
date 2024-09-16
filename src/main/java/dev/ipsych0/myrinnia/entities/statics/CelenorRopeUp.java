@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.entities.npcs.Choice;
 import dev.ipsych0.myrinnia.tiles.Tile;
@@ -8,7 +9,7 @@ import dev.ipsych0.myrinnia.tiles.Tile;
 import java.awt.*;
 import java.util.Map;
 
-public class CelenorRopeUp extends StaticEntity {
+public class CelenorRopeUp extends Entity {
 
     private Player player;
 
@@ -17,6 +18,7 @@ public class CelenorRopeUp extends StaticEntity {
         solid = false;
         attackable = false;
         isNpc = true;
+        staticNpc = true;
         player = Handler.get().getPlayer();
 
         Choice climbOption = script.getDialogues().get(4).getOptions().get(0);

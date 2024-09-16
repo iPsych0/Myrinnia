@@ -42,6 +42,7 @@ public class ExtrememistBeliefsBook extends GenericObject {
         solid = false;
         attackable = false;
         isNpc = true;
+        staticNpc = true;
 
         // Replace the {name} variable with the name of the book.
         Dialogue first = script.getDialogues().get(0);
