@@ -13,7 +13,6 @@
         <java.version>21</java.version>
         <maven.compiler.release>21</maven.compiler.release>
         <lwjgl.version>3.3.4</lwjgl.version>
-        <lwjgl.natives>natives-windows</lwjgl.natives>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -222,4 +221,59 @@
             </plugin>
         </plugins>
     </build>
+
+    <!-- Cross platform profiles -->
+    <profiles>
+        <profile>
+            <id>windows</id>
+            <activation>
+                <os>
+                    <family>Windows</family>
+                </os>
+            </activation>
+            <properties>
+                <lwjgl.natives>natives-windows</lwjgl.natives>
+            </properties>
+        </profile>
+
+        <!-- macOS x64 -->
+        <profile>
+            <id>macos-x64</id>
+            <activation>
+                <os>
+                    <family>Mac</family>
+                    <arch>x86_64</arch>
+                </os>
+            </activation>
+            <properties>
+                <lwjgl.natives>natives-macos</lwjgl.natives>
+            </properties>
+        </profile>
+
+        <!-- macOS AArch64 (Apple Silicon) -->
+        <profile>
+            <id>macos-arm64</id>
+            <activation>
+                <os>
+                    <family>Mac</family>
+                    <arch>aarch64</arch>
+                </os>
+            </activation>
+            <properties>
+                <lwjgl.natives>natives-macos-arm64</lwjgl.natives>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>linux</id>
+            <activation>
+                <os>
+                    <family>Linux</family>
+                </os>
+            </activation>
+            <properties>
+                <lwjgl.natives>natives-linux</lwjgl.natives>
+            </properties>
+        </profile>
+    </profiles>
 </project>
