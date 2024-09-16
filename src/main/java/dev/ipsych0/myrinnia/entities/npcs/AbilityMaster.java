@@ -2,6 +2,8 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.utils.Utils;
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-public class AbilityMaster extends AbilityTrainer implements Serializable {
+public class AbilityMaster extends Creature implements AbilityTrainer, Serializable {
 
 
     private static final long serialVersionUID = 4508934222180048865L;
@@ -22,6 +24,7 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
     private List<Ability> abilities;
+    private AbilityShopWindow abilityShopWindow;
 
     public AbilityMaster(float x, float y, int width, int height, Map<String, String> props) {
         super(x, y, width, height, props);
@@ -69,13 +72,13 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "has1000gold":
-                if (Handler.get().playerHasItem(Item.coins, resetCost)) {
+                if (Handler.get().playerHasItem(Item.coins, AbilityTrainer.RESET_COST)) {
                     resetSkillPoints();
                     // Change the cost of resetting in the text
                     Dialogue infoMsg = script.getDialogues().get(1);
-                    infoMsg.setText(infoMsg.getText().replaceAll("\\d+", String.valueOf(resetCost)));
+                    infoMsg.setText(infoMsg.getText().replaceAll("\\d+", String.valueOf(AbilityTrainer.RESET_COST)));
                     Choice confirm = script.getDialogues().get(2).getOptions().getFirst();
-                    confirm.setText(confirm.getText().replaceAll("\\d+", String.valueOf(resetCost)));
+                    confirm.setText(confirm.getText().replaceAll("\\d+", String.valueOf(AbilityTrainer.RESET_COST)));
                     return true;
                 }
                 break;
@@ -95,5 +98,10 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     @Override
     protected void updateDialogue() {
 
+    }
+
+    @Override
+    public AbilityShopWindow getAbilityShopWindow() {
+        return abilityShopWindow;
     }
 }

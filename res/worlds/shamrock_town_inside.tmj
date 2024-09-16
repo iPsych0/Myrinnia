@@ -416,7 +416,7 @@
                         {
                          "name":"npcClass",
                          "type":"string",
-                         "value":"BankerNPC"
+                         "value":"Banker"
                         }],
                  "rotation":0,
                  "type":"npc",
@@ -453,7 +453,7 @@
                         {
                          "name":"npcClass",
                          "type":"string",
-                         "value":"BankerNPC"
+                         "value":"Banker"
                         }],
                  "rotation":0,
                  "type":"npc",

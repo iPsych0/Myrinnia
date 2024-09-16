@@ -15,13 +15,15 @@ import java.util.Map;
 @Slf4j
 public class ShamrockEdgar extends Creature {
 
-    private Bounty bounty = BountyManager.get().getBountyByZoneAndTask(Zone.ShamrockTown, "It's mine");
+    private Bounty bounty;
 
     public ShamrockEdgar(float x, float y, int width, int height, Map<String, String> props) {
         super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;
+
+        bounty = BountyManager.get().getBountyByZoneAndTask(Zone.ShamrockTown, "It's mine");
     }
 
     @Override

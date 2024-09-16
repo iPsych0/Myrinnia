@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.entities.statics;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
+import dev.ipsych0.myrinnia.skills.ui.BountyManager;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
@@ -32,6 +33,8 @@ public class BountyBoardShamrock extends Entity implements BountyBoard {
         bountyBoardUI.addPanel(2, "It's mine", "My mining equipment was stolen. Please help me retrieve it.", "Hi, brave adventurer.\nLast night, some of my equipment was stolen. Could you find out whoever did this and retrieve my equipment? Someone in town might have witnessed something.\n\nI will await your return near the town square.\n\n- Edgar");
         bountyBoardUI.addPanel(3, "Heavy metal", "Under development...", "Under development...");
         bountyBoardUI.addPanel(5, "Ruling with an iron fist", "Under development...", "Under development...");
+        BountyManager.get().addBoard(this);
+
     }
 
     @Override
