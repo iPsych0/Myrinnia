@@ -1,9 +1,11 @@
-{ "compressionlevel":-1,
+{ "compressionlevel":0,
  "height":1,
  "infinite":false,
  "layers":[
         {
-         "data":[0],
+         "compression":"gzip",
+         "data":"H4sIAAAAAAAECmNgYGAAABzfRCEEAAAA",
+         "encoding":"base64",
          "height":1,
          "id":1,
          "name":"Tile Layer 1",

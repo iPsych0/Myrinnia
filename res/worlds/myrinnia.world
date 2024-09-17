@@ -1,0 +1,41 @@
+{
+    "maps": [
+        {
+            "fileName": "port_azure.tmj",
+            "height": 2400,
+            "width": 3200,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "fileName": "sunset_cove.tmj",
+            "height": 4800,
+            "width": 2240,
+            "x": -2240,
+            "y": -4448
+        },
+        {
+            "fileName": "lake_azure.tmj",
+            "height": 4800,
+            "width": 3200,
+            "x": 64,
+            "y": -4800
+        },
+        {
+            "fileName": "sunrise_sands.tmj",
+            "height": 4800,
+            "width": 2240,
+            "x": 3264,
+            "y": -4416
+        },
+        {
+            "fileName": "sunshine_coast.tmj",
+            "height": 1600,
+            "width": 3200,
+            "x": 64,
+            "y": -6400
+        }
+    ],
+    "onlyShowAdjacentMaps": false,
+    "type": "world"
+}

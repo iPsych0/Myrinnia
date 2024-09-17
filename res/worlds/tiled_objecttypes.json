@@ -1,0 +1,134 @@
+[
+    {
+        "color": "#ffaa0000",
+        "drawFill": true,
+        "id": 1,
+        "members": [
+            {
+                "name": "npcClass",
+                "type": "string",
+                "value": "CollisionTile"
+            }
+        ],
+        "name": "collision",
+        "type": "class",
+        "useAs": [
+            "object",
+            "tile"
+        ]
+    },
+    {
+        "color": "#ff00aa00",
+        "drawFill": true,
+        "id": 2,
+        "members": [
+            {
+                "name": "amount",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "itemId",
+                "type": "string",
+                "value": ""
+            }
+        ],
+        "name": "item",
+        "type": "class",
+        "useAs": [
+            "object",
+            "tile"
+        ]
+    },
+    {
+        "color": "#ff0000ff",
+        "drawFill": true,
+        "id": 3,
+        "members": [
+            {
+                "name": "animation",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "direction",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "dropTable",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "itemsShop",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "jsonFile",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "level",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "name",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "npcClass",
+                "type": "string",
+                "value": ""
+            }
+        ],
+        "name": "npc",
+        "type": "class",
+        "useAs": [
+            "object",
+            "tile"
+        ]
+    },
+    {
+        "color": "#ffff55ff",
+        "drawFill": true,
+        "id": 4,
+        "members": [
+            {
+                "name": "customMusicName",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "customZoneName",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "goToX",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "goToY",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "zone",
+                "type": "string",
+                "value": ""
+            }
+        ],
+        "name": "zone_tile",
+        "type": "class",
+        "useAs": [
+            "object",
+            "tile"
+        ]
+    }
+]

@@ -4,3 +4,4 @@ out/
 .idea/
 *.iml
 /target
+res/worlds/myrinnia.tiled-session

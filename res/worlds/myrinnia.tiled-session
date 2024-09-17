@@ -1,0 +1,583 @@
+{
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "aemir_riverflank.tmj": {
+            "scale": 0.21622395833333333,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1271.829459231603,
+                "y": 1914.6814404432132
+            }
+        },
+        "aemir_riverflank_polluted.tmj": {
+            "scale": 0.21622395833333333,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1281.0791280260148,
+                "y": 1923.931109237625
+            }
+        },
+        "beach.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "beach2.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "boneblade_badlands.tmj": {
+            "scale": 0.17297916666666668,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1757.4370709382151,
+                "y": 3127.5442611104418
+            }
+        },
+        "castle.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "celenor_caves.tmj": {
+            "scale": 0.19643229166666665,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1909.0547527508952,
+                "y": 1909.0547527508952
+            }
+        },
+        "celenor_caves_polluted.tmj": {
+            "scale": 0.19643229166666665,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1914.1455654248973,
+                "y": 1919.2363780988999
+            }
+        },
+        "celenor_forest_bog.tmj": {
+            "scale": 0.1683705357142857,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2239.1091077820497,
+                "y": 1591.7274294047465
+            }
+        },
+        "celenor_forest_creek.tmj": {
+            "scale": 0.1683705357142857,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2239.1091077820497,
+                "y": 1763.9665915418273
+            }
+        },
+        "celenor_forest_edge.tmj": {
+            "scale": 0.2142897727272727,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1763.9665915418273,
+                "y": 1124.6453665650274
+            }
+        },
+        "celenor_forest_landslide.tmj": {
+            "scale": 0.19643229166666665,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1924.3271907729022,
+                "y": 1924.3271907729024
+            }
+        },
+        "celenor_forest_meadows.tmj": {
+            "scale": 0.18132211538461537,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2084.6877900039776,
+                "y": 1604.8786954792524
+            }
+        },
+        "celenor_forest_thicket.tmj": {
+            "scale": 0.3928645833333333,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 962.1635953864511,
+                "y": 962.1635953864512
+            }
+        },
+        "celenor_seaboard.tmj": {
+            "scale": 0.2358806818181818,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1280.3083222931473,
+                "y": 1763.603516801156
+            }
+        },
+        "celenor_shrine.tmj": {
+            "scale": 0.4714375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 801.802996155376,
+                "y": 801.802996155376
+            }
+        },
+        "celewynn.tmj": {
+            "scale": 0.3367410714285714,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1122.5241946175263,
+                "y": 956.2243139334485
+            }
+        },
+        "celewynn_inside.tmj": {
+            "scale": 0.2946484375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1282.8847938486012,
+                "y": 1282.8847938486015
+            }
+        },
+        "celewynn_polluted.tmj": {
+            "scale": 0.3367410714285714,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1122.5241946175263,
+                "y": 962.1635953864511
+            }
+        },
+        "dark_dimension.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "desert.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "dungeon.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "eastern.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "fairy_forest.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "farm_fort.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "forgotten_shore.tmj": {
+            "scale": 0.25946874999999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1283.3915452246179,
+                "y": 1603.2759243646876
+            }
+        },
+        "forgotten_shore_cave.tmj": {
+            "scale": 0.3706696428571428,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 960.4239431530773,
+                "y": 1122.2931470552815
+            }
+        },
+        "fyddnymed.tmj": {
+            "scale": 0.19643229166666665,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1924.3271907729022,
+                "y": 1924.3271907729024
+            }
+        },
+        "fyddnymed_canopy.tmj": {
+            "scale": 0.19643229166666665,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1924.3271907729022,
+                "y": 1924.3271907729024
+            }
+        },
+        "giant_tree.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "house.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "inside.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "inside2.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "inside3.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "lake_azure.tmj": {
+            "scale": 0.17297916666666668,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1601.348910032518,
+                "y": 2404.913886547031
+            }
+        },
+        "lake_clayfall.tmj": {
+            "scale": 0.19643229166666665,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1924.3271907729022,
+                "y": 1440.6999867426757
+            }
+        },
+        "malachite_fields.tmj": {
+            "scale": 0.19643229166666665,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1924.3271907729022,
+                "y": 1440.6999867426757
+            }
+        },
+        "malachite_hideout.tmj": {
+            "scale": 0.25946874999999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1121.5223413224135,
+                "y": 1603.2759243646876
+            }
+        },
+        "malachite_hills.tmj": {
+            "scale": 0.26190972222222225,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1443.2453930796762,
+                "y": 1042.3438950019886
+            }
+        },
+        "malachite_inside.tmj": {
+            "scale": 0.589296875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 641.4423969243006,
+                "y": 480.233328914225
+            }
+        },
+        "malachite_overpass.tmj": {
+            "scale": 0.3243359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 961.9655546188126,
+                "y": 1282.6207394917499
+            }
+        },
+        "malachite_pass.tmj": {
+            "scale": 0.16216796875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1763.6035168011563,
+                "y": 2565.2414789834997
+            }
+        },
+        "malachite_slopes.tmj": {
+            "scale": 0.23571875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1603.605992310752,
+                "y": 1281.1878562906006
+            }
+        },
+        "mt_azure1.tmj": {
+            "scale": 0.4714375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 801.802996155376,
+                "y": 801.802996155376
+            }
+        },
+        "mt_azure2.tmj": {
+            "scale": 0.4714375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 801.802996155376,
+                "y": 801.802996155376
+            }
+        },
+        "mt_azure3.tmj": {
+            "scale": 0.4714375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 801.802996155376,
+                "y": 801.802996155376
+            }
+        },
+        "myrinnia_DUMMY_MAP.tmj": {
+            "scale": 23.571875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 16.036059923107516,
+                "y": 16.03605992310752
+            }
+        },
+        "outside.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "outside2.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "outside3.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "outside4.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "port_azure.tmj": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1256,
+                "y": 1364
+            }
+        },
+        "port_azure_inside.tmj": {
+            "scale": 0.23571875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1603.605992310752,
+                "y": 1603.605992310752
+            }
+        },
+        "redrock_inside.tmj": {
+            "scale": 0.2882986111111111,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1120.3661327231123,
+                "y": 1442.948331928219
+            }
+        },
+        "redrock_outpost.tmj": {
+            "scale": 0.3243359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1042.1293508370468,
+                "y": 1282.6207394917499
+            }
+        },
+        "ruindungeons_sheet_full.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "ruins_of_the_forgotten.tmj": {
+            "scale": 0.19643229166666665,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1924.3271907729022,
+                "y": 1201.4317910645634
+            }
+        },
+        "sewer.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "shamrock_cliffs.tmj": {
+            "scale": 0.21622395833333333,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1595.567867036011,
+                "y": 1919.306274840419
+            }
+        },
+        "shamrock_harbour.tmj": {
+            "scale": 0.4714375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 801.802996155376,
+                "y": 400.9014980776879
+            }
+        },
+        "shamrock_mines1.tmj": {
+            "scale": 0.3367410714285714,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1122.5241946175263,
+                "y": 962.1635953864511
+            }
+        },
+        "shamrock_mines2.tmj": {
+            "scale": 0.2946484375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1282.8847938486012,
+                "y": 960.46665782845
+            }
+        },
+        "shamrock_mines3.tmj": {
+            "scale": 0.2946484375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1282.8847938486012,
+                "y": 1123.3726633965264
+            }
+        },
+        "shamrock_mines4.tmj": {
+            "scale": 0.23571875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1603.605992310752,
+                "y": 1124.2211321755271
+            }
+        },
+        "shamrock_town.tmj": {
+            "scale": 0.3991826923076923,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 721.4741659641093,
+                "y": 1042.1293508370468
+            }
+        },
+        "shamrock_town_inside.tmj": {
+            "scale": 0.3243359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 961.9655546188126,
+                "y": 1282.6207394917499
+            }
+        },
+        "ship_tileset.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "steampunk.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "stozar_inside.tmj": {
+            "scale": 0.3928645833333333,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 959.6181890494498,
+                "y": 478.5363913562244
+            }
+        },
+        "stozars_causeway.tmj": {
+            "scale": 0.26190972222222225,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1443.2453930796762,
+                "y": 561.262097308763
+            }
+        },
+        "stozars_descent.tmj": {
+            "scale": 0.2142897727272727,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1763.9665915418273,
+                "y": 802.6514649343765
+            }
+        },
+        "stozars_quarry.tmj": {
+            "scale": 0.4714375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 801.802996155376,
+                "y": 562.1105660877636
+            }
+        },
+        "sunrise_sands.tmj": {
+            "scale": 0.17297916666666668,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1121.5223413224132,
+                "y": 2404.913886547031
+            }
+        },
+        "sunset_cove.tmj": {
+            "scale": 0.17297916666666668,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1121.5223413224132,
+                "y": 2404.913886547031
+            }
+        },
+        "sunshine_coast.tmj": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1836,
+                "y": 424
+            }
+        },
+        "terrain.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "underwater.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "wardens_cabin.tmj": {
+            "scale": 0.27312499999999995,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1197.254004576659,
+                "y": 1519.4508009153321
+            }
+        },
+        "water.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "winter1.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "winter2.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "winter3.tsj": {
+            "scaleInDock": 1
+        },
+        "winter4.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "wolfs_den.tmj": {
+            "scale": 0.3367410714285714,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1122.5241946175263,
+                "y": 641.4423969243009
+            }
+        },
+        "z_tile_marker.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "openFiles": [
+    ],
+    "project": "myrinnia.tiled-project",
+    "recentFiles": [
+        "z_tile_marker.tsj",
+        "celewynn.tmj",
+        "celewynn_inside.tmj",
+        "celewynn_polluted.tmj",
+        "dark_dimension.tsj",
+        "desert.tsj",
+        "dungeon.tsj",
+        "eastern.tsj",
+        "fairy_forest.tsj",
+        "farm_fort.tsj",
+        "forgotten_shore.tmj",
+        "forgotten_shore_cave.tmj"
+    ]
+}

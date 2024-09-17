@@ -37,6 +37,7 @@ public class TmjMapLoader implements MapLoader {
     private static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting()
             .setStrictness(Strictness.LENIENT)
+            .registerTypeAdapter(TiledLayer.class, new TiledLayer.TiledLayerDeserializer())
             .create();
 
     @Getter
