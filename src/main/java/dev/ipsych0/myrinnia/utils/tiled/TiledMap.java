@@ -3,11 +3,12 @@ package dev.ipsych0.myrinnia.utils.tiled;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class TiledMap {
+public class TiledMap implements Serializable {
     private int height;
     private int width;
     @SerializedName("tilewidth")

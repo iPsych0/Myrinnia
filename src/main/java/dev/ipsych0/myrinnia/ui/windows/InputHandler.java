@@ -8,8 +8,9 @@ import lombok.Setter;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 
-public class InputHandler {
+public class InputHandler implements Serializable {
     @Setter
     private boolean focus;
     @Getter

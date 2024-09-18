@@ -1,6 +1,8 @@
 {
-    "activeFile": "",
+    "activeFile": "port_azure.tmj",
     "expandedProjectPaths": [
+        ".",
+        "MapRefactoring/.idea"
     ],
     "fileStates": {
         "aemir_riverflank.tmj": {
@@ -36,7 +38,7 @@
             }
         },
         "castle.tsj": {
-            "scaleInDock": 1,
+            "scaleInDock": 0.75,
             "scaleInEditor": 1
         },
         "celenor_caves.tmj": {
@@ -340,11 +342,11 @@
             "scaleInEditor": 1
         },
         "port_azure.tmj": {
-            "scale": 0.25,
-            "selectedLayer": 0,
+            "scale": 1,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 1256,
-                "y": 1364
+                "x": 804.5,
+                "y": 1027.5
             }
         },
         "port_azure_inside.tmj": {
@@ -564,9 +566,12 @@
         }
     },
     "openFiles": [
+        "port_azure.tmj"
     ],
     "project": "myrinnia.tiled-project",
     "recentFiles": [
+        "port_azure.tmj",
+        "terrain.tsj",
         "z_tile_marker.tsj",
         "celewynn.tmj",
         "celewynn_inside.tmj",
@@ -576,8 +581,6 @@
         "dungeon.tsj",
         "eastern.tsj",
         "fairy_forest.tsj",
-        "farm_fort.tsj",
-        "forgotten_shore.tmj",
-        "forgotten_shore_cave.tmj"
+        "farm_fort.tsj"
     ]
 }

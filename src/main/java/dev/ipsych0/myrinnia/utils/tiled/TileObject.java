@@ -4,11 +4,12 @@ import dev.ipsych0.myrinnia.utils.tiled.tilesets.Polypoint;
 import lombok.Data;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class TileObject {
+public class TileObject implements Serializable {
     private int id;
     private String name;
     private String type;

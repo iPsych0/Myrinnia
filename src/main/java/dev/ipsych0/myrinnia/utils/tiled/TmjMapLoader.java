@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.io.FileReader;
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +30,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class TmjMapLoader implements MapLoader {
+public class TmjMapLoader implements MapLoader, Serializable {
 
     /**
      * Util class to parse TMJ maps (JSON)

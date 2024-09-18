@@ -11,6 +11,7 @@ import lombok.Data;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.zip.GZIPInputStream;
 
 @Data
-public class TiledLayer {
+public class TiledLayer implements Serializable {
     private String type; // "tilelayer", "objectgroup", etc.
     private String name;
     private int width;
