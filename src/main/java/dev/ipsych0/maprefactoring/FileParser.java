@@ -13,7 +13,7 @@ import java.util.List;
 @Slf4j
 public class FileParser {
 
-    private static final String PATH = "./res/correctTilesetElements.json";
+    private static final String PATH = "./res/worlds/correctTilesetElements.json";
     private static final TmjMapLoader mapLoader = new TmjMapLoader();
 
     public static void parse(File file) {
@@ -26,6 +26,10 @@ public class FileParser {
                 () -> new JsonParseException("Could not load TiledMap.")
         );
 
+        if (map.getTilesets().equals(correctTilesets)) {
+            return;
+        }
+
         map.setTilesets(correctTilesets);
 
         String fixedMap = mapLoader.saveMap(map);
@@ -35,5 +39,7 @@ public class FileParser {
         } catch (Exception e) {
             log.error("Could not override and save map file: %s".formatted(file.getName()));
         }
+
+        log.info("Updated tilesets for %s".formatted(file.getName()));
     }
 }
