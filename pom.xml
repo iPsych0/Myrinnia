@@ -176,10 +176,11 @@
                             <jreMinVersion>21</jreMinVersion>
                             <copyDependencies>true</copyDependencies>
                             <generateInstaller>false</generateInstaller>
-                            <administratorRequired>true</administratorRequired>
+                            <administratorRequired>${packager.administratorRequired}</administratorRequired>
                             <createZipball>true</createZipball>
                             <iconFile>res/settings/myrinnia.ico</iconFile>
-                            <platform>windows</platform>
+                            <useResourcesAsWorkingDir>${packager.resourcesWorkdir}</useResourcesAsWorkingDir>
+                            <platform>auto</platform>
                             <additionalResources>
                                 <additionalResource>res</additionalResource>
                             </additionalResources>
@@ -188,6 +189,11 @@
                                 <generateMsi>false</generateMsi>
                                 <createDesktopIconTask>true</createDesktopIconTask>
                             </winConfig>
+                            <macConfig>
+                                <icnsFile>res/settings/myrinnia.icns</icnsFile>
+                                <volumeIcon>res/settings/myrinnia.icns</volumeIcon>
+                                <relocateJar>false</relocateJar>
+                            </macConfig>
                         </configuration>
                     </execution>
                 </executions>
@@ -232,6 +238,8 @@
                 </os>
             </activation>
             <properties>
+                <packager.resourcesWorkdir>true</packager.resourcesWorkdir>
+                <packager.administratorRequired>true</packager.administratorRequired>
                 <lwjgl.natives>natives-windows</lwjgl.natives>
             </properties>
         </profile>
@@ -246,6 +254,8 @@
                 </os>
             </activation>
             <properties>
+                <packager.resourcesWorkdir>false</packager.resourcesWorkdir>
+                <packager.administratorRequired>false</packager.administratorRequired>
                 <lwjgl.natives>natives-macos</lwjgl.natives>
             </properties>
         </profile>
@@ -260,6 +270,8 @@
                 </os>
             </activation>
             <properties>
+                <packager.resourcesWorkdir>false</packager.resourcesWorkdir>
+                <packager.administratorRequired>false</packager.administratorRequired>
                 <lwjgl.natives>natives-macos-arm64</lwjgl.natives>
             </properties>
         </profile>
@@ -272,6 +284,8 @@
                 </os>
             </activation>
             <properties>
+                <packager.resourcesWorkdir>false</packager.resourcesWorkdir>
+                <packager.administratorRequired>false</packager.administratorRequired>
                 <lwjgl.natives>natives-linux</lwjgl.natives>
             </properties>
         </profile>
