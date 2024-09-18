@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.utils.tiled;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.Strictness;
+import com.google.gson.reflect.TypeToken;
 import dev.ipsych0.myrinnia.SplashScreen;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
@@ -311,12 +312,25 @@ public class TmjMapLoader implements MapLoader, Serializable {
                 .toList();
     }
 
-    private Optional<TiledMap> loadMap(String path) {
+    public Optional<TiledMap> loadMap(String path) {
         try (FileReader reader = new FileReader(path)) {
             return Optional.of(GSON.fromJson(reader, TiledMap.class));
         } catch (Exception e) {
             log.error("Could not parse json Tilemap.", e);
             return Optional.empty();
+        }
+    }
+
+    public String saveMap(TiledMap map) {
+        return GSON.toJson(map);
+    }
+
+    public List<Tileset> loadTilesets(String path) {
+        try (FileReader reader = new FileReader(path)) {
+            return GSON.fromJson(reader, new TypeToken<List<Tileset>>(){}.getType());
+        } catch (Exception e) {
+            log.error("Could not parse json Tilemap.", e);
+            return new ArrayList<>();
         }
     }
 

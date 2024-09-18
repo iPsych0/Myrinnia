@@ -4,7 +4,7 @@ import java.io.File;
 
 public class Main {
 
-    private static File worldsDirectory = new File("../");
+    private static File worldsDirectory = new File("./res/worlds");
 
     public static void main(String[] args) {
 
@@ -13,7 +13,7 @@ public class Main {
             for (File f : worldsDirectory.listFiles()) {
                 // Check if it ends with .tmj extension and skip the dummy map
                 if(f.getAbsolutePath().endsWith(".tmj") && !f.getAbsolutePath().endsWith("myrinnia_DUMMY_MAP.tmj")) {
-                    new FileParser(f);
+                    FileParser.parse(f);
                 }
             }
         }

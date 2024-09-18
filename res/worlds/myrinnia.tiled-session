@@ -1,8 +1,8 @@
 {
     "activeFile": "port_azure.tmj",
     "expandedProjectPaths": [
-        ".",
-        "MapRefactoring/.idea"
+        "MapRefactoring/.idea",
+        "."
     ],
     "fileStates": {
         "aemir_riverflank.tmj": {
@@ -342,11 +342,11 @@
             "scaleInEditor": 1
         },
         "port_azure.tmj": {
-            "scale": 1,
-            "selectedLayer": 1,
+            "scale": 8,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 804.5,
-                "y": 1027.5
+                "x": 2450.5625,
+                "y": 1579.875
             }
         },
         "port_azure_inside.tmj": {
