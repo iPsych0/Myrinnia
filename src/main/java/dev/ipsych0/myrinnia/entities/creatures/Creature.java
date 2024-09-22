@@ -310,7 +310,7 @@ public abstract class Creature extends Entity {
     /*
      * Returns the sprite of the last faced direction
      */
-    protected BufferedImage getLastFacedImg() {
+    public BufferedImage getLastFacedImg() {
         if (lastFaced == null) {
             return aDown.getDefaultFrame();
         }
@@ -485,6 +485,8 @@ public abstract class Creature extends Entity {
         boolean walkableOnTop = false;
         boolean solidTileUnderPostRendered = false;
         boolean hasPostRenderedTile = false;
+        int solidTileIndex = -1;
+        int postRenderTileIndex = -1;
         for (int i = 0; i < topLayer; i++) {
             Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
@@ -495,20 +497,24 @@ public abstract class Creature extends Entity {
                 }
                 if (!walkableOnTop) {
                     solidTileUnderPostRendered = true;
+                    solidTileIndex = i;
                 }
             } else {
                 if (t != null && t != Tile.tiles[0]) {
                     walkableOnTop = true;
                     if (t.isPostRendered()) {
                         hasPostRenderedTile = true;
+                        postRenderTileIndex = i;
                     }
 
                 }
             }
         }
 
+        // If there is a solid tile directly under the postrender - we can't walk, but if there's more than 1 layer
+        // in between (e.g. another walkable tile) then we can walk under the postrender tile
         if (hasPostRenderedTile && solidTileUnderPostRendered) {
-            return true;
+            return postRenderTileIndex - solidTileIndex <= 1;
         }
 
         return !walkableOnTop;

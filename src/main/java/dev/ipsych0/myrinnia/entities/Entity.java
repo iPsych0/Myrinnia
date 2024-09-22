@@ -17,7 +17,6 @@ import dev.ipsych0.myrinnia.publishers.KillPublisher;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
-import dev.ipsych0.myrinnia.utils.tiled.TileObject;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,13 +60,16 @@ public abstract class Entity implements Serializable {
     protected boolean walker = true;
     private Entity damageDealer;
     private Entity damageReceiver;
-    protected int speakingTurn = 0;
-    protected int speakingCheckpoint = 0;
+    protected int speakingTurn;
+    protected int speakingCheckpoint;
     protected transient ChatDialogue chatDialogue;
     protected boolean overlayDrawn = true;
-    private int lastHit = 0;
+    private int lastHit;
+    protected boolean hit;
+    private int hitTimer;
+    protected static final int HIT_MASK_DURATION = 15;
     protected boolean inCombat = false;
-    protected int combatTimer = 0;
+    protected int combatTimer;
     protected boolean respawner = true;
     protected long respawnTime = 30L; // 30 seconds
     protected long timeOfDeath;
@@ -79,7 +82,7 @@ public abstract class Entity implements Serializable {
     protected String shopItemsFile;
     protected List<DropTableEntry> dropTableEntries;
     private static final double DIVISION_QUOTIENT = 150.0d;
-    protected int verticality = 0;
+    protected int verticality;
     protected Map<String, String> props;
     protected int maxDropTableWeight;
     protected int emptyWeight;
@@ -354,7 +357,9 @@ public abstract class Entity implements Serializable {
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
+        damageReceiver.hit = true;
         Handler.get().addHitSplat(this, damageDealer, damageType);
+
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;
@@ -389,6 +394,7 @@ public abstract class Entity implements Serializable {
         }
         damageReceiver.damaged = true;
         damageReceiver.lastHit = 0;
+        damageReceiver.hit = true;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
         Handler.get().addHitSplat(this, damageDealer, damageType, ability);
@@ -574,6 +580,44 @@ public abstract class Entity implements Serializable {
                 damageReceiver.lastHit = 0;
             }
         }
+
+        if (hit) {
+            hitTimer++;
+            if (hitTimer >= HIT_MASK_DURATION) {
+                hitTimer = 0;
+                hit = false;
+            }
+        }
+    }
+
+    protected BufferedImage applyWhiteMask(BufferedImage originalImage) {
+        if (!hit) {
+            return originalImage;
+        }
+
+        int width = originalImage.getWidth();
+        int height = originalImage.getHeight();
+
+        // Create a new BufferedImage with transparency (ARGB)
+        BufferedImage maskedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = maskedImage.createGraphics();
+
+        // Loop through each pixel in the original image
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                // Get the original pixel color
+                int pixel = originalImage.getRGB(x, y);
+
+                // Check if the pixel is not transparent (alpha channel is not zero)
+                if ((pixel >> 24) != 0x00) {
+                    // If not transparent, set the corresponding pixel in the maskedImage to white
+                    maskedImage.setRGB(x, y, new Color(255, 0, 0, 192).getRGB());
+                }
+            }
+        }
+
+        g2d.dispose();
+        return maskedImage;
     }
 
     public void drawHP(Graphics2D g) {

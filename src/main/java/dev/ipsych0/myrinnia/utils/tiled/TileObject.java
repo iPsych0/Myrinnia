@@ -19,5 +19,6 @@ public class TileObject implements Serializable {
     private int height;
     private boolean visible;
     public List<Polypoint> polygon = new ArrayList<>();
+    public List<Polypoint> polyline = new ArrayList<>();
     private List<Property> properties = new ArrayList<>();
 }

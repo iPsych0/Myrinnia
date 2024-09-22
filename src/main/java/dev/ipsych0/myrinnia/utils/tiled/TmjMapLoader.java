@@ -161,6 +161,13 @@ public class TmjMapLoader implements MapLoader, Serializable {
                             polyLines.add(p);
                         });
                     }
+                    else if (!obj.getPolyline().isEmpty()) {
+                        obj.getPolyline().forEach(poly -> {
+                            Point p = new Point();
+                            p.setLocation(poly.getX(), poly.getY());
+                            polyLines.add(p);
+                        });
+                    }
                 });
                 Tile.polygonTiles.put(currentId, polyLines);
             }
@@ -201,11 +208,15 @@ public class TmjMapLoader implements MapLoader, Serializable {
                 } catch (Exception e) {
                     // Only use exception when the class is in none of the 3 packages mentioned above
                     if (i == packages.length - 1) {
-                        log.error("Exception", e);
-                        log.error("Could not find Entity '{}' in any package. (World: {})", className, this.worldPath);
+                        log.error("Could not find Entity '%s' in any package. Props: %s (World: %s)".formatted(className, props, this.worldPath), e);
                     }
                 }
             }
+
+            if (c == null) {
+                return null;
+            }
+
             // Get all constructors
             for (Constructor t : c.getDeclaredConstructors()) {
                 if (t.getParameterCount() == 5) {
@@ -226,9 +237,8 @@ public class TmjMapLoader implements MapLoader, Serializable {
     }
 
     private Item loadItem(TileObject obj) {
+        Map<String, String> props = toMap(obj.getProperties());
         try {
-            Map<String, String> props = toMap(obj.getProperties());
-
             int itemId = Integer.parseInt(props.get("itemId"));
             int amount = Integer.parseInt(props.get("amount"));
 
@@ -240,25 +250,30 @@ public class TmjMapLoader implements MapLoader, Serializable {
             }
             return i;
         } catch (Exception e) {
-            log.error("Exception", e);
+            log.error("Could not load world item: %s".formatted(props), e);
         }
         return null;
     }
 
     private ZoneTile loadZoneTile(TileObject obj) {
         Map<String, String> props = toMap(obj.getProperties());
-        int goToX = Integer.parseInt(props.get("goToX"));
-        int goToY = Integer.parseInt(props.get("goToY"));
-        Zone zone = Zone.valueOf(props.get("zone"));
-        String customZoneName = props.get("customZoneName");
-        String customZoneMusic = props.get("customZoneMusic");
-        Creature.Direction direction = null;
-        String directionProp = props.get("direction");
-        if (directionProp != null) {
-            direction = Creature.Direction.valueOf(directionProp);
-        }
+        try {
+            int goToX = Integer.parseInt(props.get("goToX"));
+            int goToY = Integer.parseInt(props.get("goToY"));
+            Zone zone = Zone.valueOf(props.get("zone"));
+            String customZoneName = props.get("customZoneName");
+            String customZoneMusic = props.get("customZoneMusic");
+            Creature.Direction direction = null;
+            String directionProp = props.get("direction");
+            if (directionProp != null) {
+                direction = Creature.Direction.valueOf(directionProp);
+            }
 
-        return new ZoneTile(zone, (int) obj.getX(), (int) obj.getY(), obj.getWidth(), obj.getHeight(), goToX, goToY, customZoneName, customZoneMusic, direction);
+            return new ZoneTile(zone, (int) obj.getX(), (int) obj.getY(), obj.getWidth(), obj.getHeight(), goToX, goToY, customZoneName, customZoneMusic, direction);
+        } catch (Exception e) {
+            log.error("Could not instantiate ZoneTile. Props: %s".formatted(props), e);
+            return null;
+        }
     }
 
     private Map<String, String> toMap(List<Property> properties) {
@@ -286,13 +301,31 @@ public class TmjMapLoader implements MapLoader, Serializable {
         objects.forEach(obj -> {
             TiledObjectType type = TiledObjectType.valueOf(obj.getType().toUpperCase());
             switch (type) {
-                case NPC -> world.getEntityManager().addEntity(loadEntity(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight(), toMap(obj.getProperties())));
-                case ITEM -> world.getItemManager().addItem(loadItem(obj), true);
+                case NPC -> {
+                    Entity e = loadEntity(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight(), toMap(obj.getProperties()));
+                    if (e != null) {
+                        world.getEntityManager().addEntity(e);
+                    }
+                }
+                case ITEM -> {
+                    Item i = loadItem(obj);
+                    if (i != null) {
+                        world.getItemManager().addItem(i, true);
+                    }
+                }
                 case COLLISION -> {
                     setClassName(obj, "CollisionTile");
-                    world.getEntityManager().addEntity(loadEntity(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight(), toMap(obj.getProperties())));
+                    Entity e = loadEntity(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight(), toMap(obj.getProperties()));
+                    if (e != null) {
+                        world.getEntityManager().addEntity(e);
+                    }
                 }
-                case ZONE_TILE -> world.getZoneTiles().add(loadZoneTile(obj));
+                case ZONE_TILE -> {
+                    ZoneTile tile = loadZoneTile(obj);
+                    if (tile != null) {
+                        world.getZoneTiles().add(loadZoneTile(obj));
+                    }
+                }
                 default -> log.error("New object type '%s' not implemented!".formatted(obj.getType()));
             }
         });
@@ -327,7 +360,8 @@ public class TmjMapLoader implements MapLoader, Serializable {
 
     public List<Tileset> loadTilesets(String path) {
         try (FileReader reader = new FileReader(path)) {
-            return GSON.fromJson(reader, new TypeToken<List<Tileset>>(){}.getType());
+            return GSON.fromJson(reader, new TypeToken<List<Tileset>>() {
+            }.getType());
         } catch (Exception e) {
             log.error("Could not parse json Tilemap.", e);
             return new ArrayList<>();

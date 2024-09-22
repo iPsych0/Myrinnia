@@ -481,10 +481,10 @@ public class Player extends Creature {
         }
 
         if (movementAllowed) {
-            g.drawImage(getCurrentAnimationFrame(mouse), (int) (x - Handler.get().getGameCamera().getxOffset()),
+            g.drawImage(applyWhiteMask(getCurrentAnimationFrame(mouse)), (int) (x - Handler.get().getGameCamera().getxOffset()),
                     (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
         } else {
-            g.drawImage(getLastFacedImg(), (int) (x - Handler.get().getGameCamera().getxOffset()),
+            g.drawImage(applyWhiteMask(getLastFacedImg()), (int) (x - Handler.get().getGameCamera().getxOffset()),
                     (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
         }
 
@@ -511,7 +511,7 @@ public class Player extends Creature {
 //        g.setColor(Color.MAGENTA);
 //        g.drawRect((int) (ar.x - Handler.get().getGameCamera().getxOffset()), (int) (ar.y - Handler.get().getGameCamera().getyOffset()), ar.width, ar.height);
 
-        if (projectiles.size() > 0) {
+        if (!projectiles.isEmpty()) {
             for (Projectile p : projectiles) {
                 if (active)
                     p.render(g);
@@ -526,7 +526,7 @@ public class Player extends Creature {
 
                 AffineTransform old = g.getTransform();
                 g.rotate(Math.toRadians(meleeDirection), (int) (x + meleeXOffset + width / 2 - Handler.get().getGameCamera().getxOffset()), (int) (y + meleeYOffset + height / 2 - Handler.get().getGameCamera().getyOffset()));
-                g.drawImage(meleeAnimation.getCurrentFrame(), (int) (x + meleeXOffset - Handler.get().getGameCamera().getxOffset()),
+                g.drawImage(applyWhiteMask(meleeAnimation.getCurrentFrame()), (int) (x + meleeXOffset - Handler.get().getGameCamera().getxOffset()),
                         (int) (y + meleeYOffset - Handler.get().getGameCamera().getyOffset()), (int) (width * 1.25f), (int) (height * 1.25f), null);
                 g.setTransform(old);
             }
@@ -955,27 +955,23 @@ public class Player extends Creature {
         if (Handler.get().getKeyManager().up) {
             yMove = -speed;
             direction = Direction.UP;
-            setMouseAngle(x, y, (int) (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset()),
-                    (int) (Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset()));
         }
         if (Handler.get().getKeyManager().down) {
             yMove = speed;
             direction = Direction.DOWN;
-            setMouseAngle(x, y, (int) (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset()),
-                    (int) (Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset()));
         }
         if (Handler.get().getKeyManager().left) {
             xMove = -speed;
             direction = Direction.LEFT;
-            setMouseAngle(x, y, (int) (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset()),
-                    (int) (Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset()));
         }
         if (Handler.get().getKeyManager().right) {
             xMove = speed;
             direction = Direction.RIGHT;
-            setMouseAngle(x, y, (int) (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset()),
-                    (int) (Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset()));
         }
+
+        setMouseAngle(x, y, (int) (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset()),
+                (int) (Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset()));
+
         if (xMove != 0 || yMove != 0) {
             isMoving = true;
             hasMoved = true;

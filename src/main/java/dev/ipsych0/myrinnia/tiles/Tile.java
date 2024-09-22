@@ -150,23 +150,24 @@ public class Tile {
         private boolean postRendered;
 
         public TileBuilder solid(boolean solid) {
-            setSolidAndPostRendered(solid, postRendered);
+            this.solid = solid;
             return this;
         }
 
         public TileBuilder postRendered(boolean postRendered) {
-            setSolidAndPostRendered(solid, postRendered);
+            this.postRendered = postRendered;
             return this;
         }
 
-        public void setSolidAndPostRendered(boolean solid, boolean postRendered) {
-            if (this.postRendered && solid) {
+        public TileBuilder setSolidAndPostRendered(boolean solid, boolean postRendered) {
+            if (postRendered && solid) {
                 this.solid = true;
                 this.postRendered = false;
             } else {
                 this.solid = solid;
                 this.postRendered = postRendered;
             }
+            return this;
         }
     }
 }

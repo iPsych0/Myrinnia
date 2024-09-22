@@ -69,17 +69,15 @@ public class SpriteSheet {
         SplashScreen.addLoadedElement();
 
         // Build a partial Tile with basic settings
+        BufferedImage texture = sheet.getSubimage(x, y, width, height);
         Tile.TileBuilder builder = Tile.builder()
                 .id(tileId)
-                .texture(sheet.getSubimage(x, y, width, height))
-                .solid(Tile.solidTiles.get(tileId))
-                .postRendered(Tile.postRenderTiles.get(tileId));
+                .texture(texture);
 
         Tile.tiles[tileId] = builder.build();
-        Tile tile = Tile.tiles[tileId];
 
         // Don't parse transparent tiles
-        if (isTransparent(tile.getTexture())) {
+        if (isTransparent(texture)) {
             return null;
         }
 
@@ -102,6 +100,7 @@ public class SpriteSheet {
     private void setPolyTiles(int tileId, Tile.TileBuilder builder) {
         List<Point> polyTiles = Tile.polygonTiles.get(tileId);
         if (polyTiles == null) {
+            builder.setSolidAndPostRendered(Tile.solidTiles.get(tileId), Tile.postRenderTiles.get(tileId));
             return;
         }
 
@@ -114,6 +113,8 @@ public class SpriteSheet {
         }
         builder.xPoints(xCoords);
         builder.yPoints(yCoords);
+        builder.polyBounds(new Polygon(xCoords, yCoords, (xCoords.length + yCoords.length) / 2));
+        builder.solid(true);
     }
 
     private boolean isTransparent(BufferedImage img) {

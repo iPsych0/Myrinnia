@@ -1,8 +1,12 @@
 {
-    "activeFile": "port_azure.tmj",
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
     "expandedProjectPaths": [
-        "MapRefactoring/.idea",
-        "."
+        ".",
+        "MapRefactoring/.idea"
     ],
     "fileStates": {
         "aemir_riverflank.tmj": {
@@ -262,11 +266,11 @@
             }
         },
         "malachite_inside.tmj": {
-            "scale": 0.589296875,
-            "selectedLayer": 0,
+            "scale": 1.5,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 641.4423969243006,
-                "y": 480.233328914225
+                "x": 417,
+                "y": 488.3333333333333
             }
         },
         "malachite_overpass.tmj": {
@@ -342,11 +346,11 @@
             "scaleInEditor": 1
         },
         "port_azure.tmj": {
-            "scale": 8,
+            "scale": 0.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 2450.5625,
-                "y": 1579.875
+                "x": 4643,
+                "y": 3063
             }
         },
         "port_azure_inside.tmj": {
@@ -378,11 +382,11 @@
             "scaleInEditor": 1
         },
         "ruins_of_the_forgotten.tmj": {
-            "scale": 0.19643229166666665,
-            "selectedLayer": 0,
+            "scale": 0.5,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 1924.3271907729022,
-                "y": 1201.4317910645634
+                "x": 1827,
+                "y": 1285
             }
         },
         "sewer.tsj": {
@@ -458,7 +462,7 @@
             "scaleInEditor": 1
         },
         "steampunk.tsj": {
-            "scaleInDock": 1,
+            "scaleInDock": 1.5,
             "scaleInEditor": 1
         },
         "stozar_inside.tmj": {
@@ -566,12 +570,12 @@
         }
     },
     "openFiles": [
-        "port_azure.tmj"
     ],
     "project": "myrinnia.tiled-project",
     "recentFiles": [
-        "port_azure.tmj",
         "terrain.tsj",
+        "beach.tsj",
+        "port_azure.tmj",
         "z_tile_marker.tsj",
         "celewynn.tmj",
         "celewynn_inside.tmj",
@@ -580,7 +584,6 @@
         "desert.tsj",
         "dungeon.tsj",
         "eastern.tsj",
-        "fairy_forest.tsj",
-        "farm_fort.tsj"
+        "fairy_forest.tsj"
     ]
 }

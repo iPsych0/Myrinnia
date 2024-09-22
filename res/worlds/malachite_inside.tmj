@@ -53,6 +53,12 @@
                  "height":32,
                  "id":1,
                  "name":"Animal",
+                 "properties":[
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"Animal"
+                        }],
                  "rotation":0,
                  "type":"npc",
                  "visible":true,
@@ -64,6 +70,12 @@
                  "height":32,
                  "id":4,
                  "name":"Animal",
+                 "properties":[
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"Animal"
+                        }],
                  "rotation":0,
                  "type":"npc",
                  "visible":true,
@@ -145,7 +157,7 @@
  "nextobjectid":7,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.10.2",
+ "tiledversion":"1.11.0",
  "tileheight":32,
  "tilesets":[
         {
