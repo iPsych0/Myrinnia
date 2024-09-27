@@ -101,8 +101,4 @@ public class MeleeDummy extends Creature {
     public void respawn() {
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

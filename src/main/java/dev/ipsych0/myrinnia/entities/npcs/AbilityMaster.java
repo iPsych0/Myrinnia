@@ -95,10 +95,6 @@ public class AbilityMaster extends Creature implements AbilityTrainer, Serializa
         return false;
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 
     @Override
     public AbilityShopWindow getAbilityShopWindow() {

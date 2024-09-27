@@ -82,7 +82,7 @@ public class CelenorPorewit extends Creature {
 //    }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         // The warning script logic
         if (script.getDialogues().get(0).getText().equalsIgnoreCase("Halt!")) {
             switch (speakingTurn) {

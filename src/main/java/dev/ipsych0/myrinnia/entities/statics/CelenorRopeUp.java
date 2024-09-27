@@ -51,7 +51,7 @@ public class CelenorRopeUp extends Entity {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 0:
                 speakingTurn = 4;

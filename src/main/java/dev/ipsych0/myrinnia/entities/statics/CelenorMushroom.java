@@ -59,7 +59,7 @@ public class CelenorMushroom extends Entity {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 2:
                 Handler.get().giveItem(Item.amanitaMushroom, 1);

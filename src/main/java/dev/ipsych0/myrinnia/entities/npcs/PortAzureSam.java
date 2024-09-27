@@ -73,7 +73,7 @@ public class PortAzureSam extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 4:
                 if (firstAccess) {

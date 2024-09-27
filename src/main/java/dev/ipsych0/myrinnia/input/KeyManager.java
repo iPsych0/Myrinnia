@@ -235,6 +235,10 @@ public class KeyManager implements KeyListener, Serializable {
         if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
             EntityManager.shiftPressed = false;
         }
+
+        if (e.getKeyChar() == interactKey) {
+            Player.hasInteracted = false;
+        }
     }
 
     @Override
@@ -252,10 +256,6 @@ public class KeyManager implements KeyListener, Serializable {
             // Set the pressed key for the ability bar
             AbilityHUD.hasBeenTyped = true;
             AbilityHUD.pressedKey = e.getKeyChar();
-
-            if (e.getKeyChar() == interactKey && Entity.isCloseToNPC) {
-                Player.hasInteracted = false;
-            }
         }
     }
 

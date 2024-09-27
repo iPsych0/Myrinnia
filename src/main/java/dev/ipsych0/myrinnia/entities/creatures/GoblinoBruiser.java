@@ -115,8 +115,4 @@ public class GoblinoBruiser extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new GoblinoBruiser(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

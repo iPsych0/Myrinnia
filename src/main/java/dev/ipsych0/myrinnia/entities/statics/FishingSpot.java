@@ -254,10 +254,6 @@ public class FishingSpot extends Entity {
         Handler.get().getWorld().getEntityManager().addEntity(new FishingSpot(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 
     public boolean isFishing() {
         return isFishing;

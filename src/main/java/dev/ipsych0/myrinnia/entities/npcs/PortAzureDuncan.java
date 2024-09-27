@@ -108,7 +108,7 @@ public class PortAzureDuncan extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 14:
                 if (speakingCheckpoint != 14) {

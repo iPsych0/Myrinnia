@@ -67,7 +67,7 @@ public class MayorWilson extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 0:
                 if (Handler.get().questInProgress(QuestList.GettingStarted) && Handler.get().getQuest(QuestList.GettingStarted).getQuestSteps().get(0).isFinished()) {

@@ -111,8 +111,4 @@ public class AlchemicalExperiment extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new AlchemicalExperiment(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

@@ -81,7 +81,7 @@ public class CelenorEarthCrystal extends Entity {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 3:
                 Handler.get().sendMsg("Abilities learnt!");

@@ -57,7 +57,7 @@ public class ShamrockSebastian extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 7:
                 if (speakingCheckpoint != 7) {

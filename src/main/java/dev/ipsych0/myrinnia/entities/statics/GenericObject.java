@@ -42,8 +42,4 @@ public class GenericObject extends Entity {
         Handler.get().getWorld().getEntityManager().addEntity(new GenericObject(x, y, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

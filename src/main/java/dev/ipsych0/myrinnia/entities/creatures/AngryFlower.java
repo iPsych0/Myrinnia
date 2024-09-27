@@ -103,8 +103,4 @@ public class AngryFlower extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new AngryFlower(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

@@ -97,8 +97,4 @@ public class AngryOwl extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new AngryOwl(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

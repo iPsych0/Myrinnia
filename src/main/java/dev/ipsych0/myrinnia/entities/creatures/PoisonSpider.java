@@ -102,8 +102,4 @@ public class PoisonSpider extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new PoisonSpider(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

@@ -326,10 +326,6 @@ public class Rock extends Entity {
         Handler.get().getWorld().getEntityManager().addEntity(new Rock(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 
     public boolean isMining() {
         return isMining;

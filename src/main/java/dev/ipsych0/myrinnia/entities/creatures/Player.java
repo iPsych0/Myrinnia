@@ -20,6 +20,7 @@ import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.gfx.GameCamera;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
+import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
@@ -93,7 +94,7 @@ public class Player extends Creature {
     private int levelUpTimer, xpGainedTimer;
     public static boolean expEffectPlayed;
 
-    public static boolean isMoving, hasMoved;
+    public static boolean isMoving;
 
     public static boolean mouseMoved;
     private double xSpawn, ySpawn;
@@ -226,77 +227,71 @@ public class Player extends Creature {
         }
 
         // If space button is pressed
-        if (Handler.get().getKeyManager().talk) {
-            if (!hasInteracted) {
-                // And we're close to an NPC interact with it
-                if (playerIsNearNpc()) {
+        if (Handler.get().getKeyManager().talk && !hasInteracted && playerIsNearNpc() && !isMoving) {
+            // If we have selected an Entity and we're close to that entity, interact with the selected one
+            Entity selected = Handler.get().getWorld().getEntityManager().getSelectedEntity();
+            if (selected != null && selected.isNear(selected)) {
+                closestEntity = selected;
+            } else {
+                closestEntity = getClosestEntity();
+            }
 
-                    // If we have selected an Entity and we're close to that entity, interact with the selected one
-                    Entity selected = Handler.get().getWorld().getEntityManager().getSelectedEntity();
-                    if (selected != null && selected.isNear(selected)) {
-                        closestEntity = selected;
-                    } else {
-                        closestEntity = getClosestEntity();
-                    }
+            if (closestEntity.getChatDialogue() == null) {
+                closestEntity.interact();
+                Handler.get().playEffect("ui/ui_button_click.ogg");
 
-                    if (closestEntity.getChatDialogue() == null) {
-                        closestEntity.interact();
-                        hasInteracted = true;
-                        Handler.get().playEffect("ui/ui_button_click.ogg");
-
-                        // If the closest Entity is a shops, open the shops
-                        if (closestEntity instanceof ShopKeeper) {
-                            shopKeeper = (ShopKeeper) getClosestEntity();
-                            shopKeeper.getShopWindow().setLastShopWindow();
-                        } else if (closestEntity instanceof Banker) {
-                            bankEntity = (Banker) getClosestEntity();
-                        } else if (closestEntity instanceof AbilityTrainer) {
-                            abilityTrainer = (AbilityTrainer) getClosestEntity();
-                            abilityTrainer.getAbilityShopWindow().setLastOpenedWindow();
-                        } else if (closestEntity instanceof BountyBoard) {
-                            bountyBoard = (BountyBoard) getClosestEntity();
-                        }
-                    } else {
-                        if (closestEntity.getChatDialogue().getMenuOptions().length == 1) {
-                            closestEntity.interact();
-                            hasInteracted = true;
-                            Handler.get().playEffect("ui/ui_button_click.ogg");
-                        }
-                    }
+                // If the closest Entity is a shops, open the shops
+                if (closestEntity instanceof ShopKeeper) {
+                    shopKeeper = (ShopKeeper) getClosestEntity();
+                    shopKeeper.getShopWindow().setLastShopWindow();
+                } else if (closestEntity instanceof Banker) {
+                    bankEntity = (Banker) getClosestEntity();
+                } else if (closestEntity instanceof AbilityTrainer) {
+                    abilityTrainer = (AbilityTrainer) getClosestEntity();
+                    abilityTrainer.getAbilityShopWindow().setLastOpenedWindow();
+                } else if (closestEntity instanceof BountyBoard) {
+                    bountyBoard = (BountyBoard) getClosestEntity();
+                }
+            } else {
+                if (closestEntity.getChatDialogue().getMenuOptions().length == 1) {
+                    closestEntity.interact();
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
                 }
             }
+
+            hasInteracted = true;
         }
 
         Rectangle mouse = Handler.get().getMouse();
 
-        // If we're interacting with the closest Entity
-        if (closestEntity != null) {
-            // And it has a chatdialogue
-            if (closestEntity.getChatDialogue() != null) {
-                // If the Entity has an option-menu
-                if (closestEntity.getChatDialogue().getChosenOption() != null) {
-                    // And we haven't interacted
-                    if (!hasInteracted) {
-                        // And we're still close to it
-                        if (playerIsNearNpc()) {
-                            // If we click the menu option, interact with it.
-                            closestEntity.interact();
-                            hasInteracted = true;
-                        }
-                    }
-                    // If the Entity only has a continue button (text only) and it's pressed
-                } else if (closestEntity.getChatDialogue().getChatOptions().size() == 1 && closestEntity.getChatDialogue().getChatOptions().get(0).isPressed()) {
-                    if (!hasInteracted) {
-                        if (playerIsNearNpc()) {
-                            // Do the logic and set it to un-pressed and interact
-                            closestEntity.interact();
-                            Handler.get().playEffect("ui/ui_button_click.ogg");
-                            hasInteracted = true;
-                        }
-                    }
-                }
-            }
-        }
+//        // If we're interacting with the closest Entity
+//        if (closestEntity != null) {
+//            // And it has a chatdialogue
+//            if (closestEntity.getChatDialogue() != null) {
+//                // If the Entity has an option-menu
+//                if (closestEntity.getChatDialogue().getChosenOption() != null) {
+//                    // And we haven't interacted
+//                    if (hasInteracted) {
+//                        // And we're still close to it
+//                        if (playerIsNearNpc()) {
+//                            // If we click the menu option, interact with it.
+//                            closestEntity.interact();
+//                            hasInteracted = false;
+//                        }
+//                    }
+//                    // If the Entity only has a continue button (text only) and it's pressed
+//                } else if (closestEntity.getChatDialogue().getChatOptions().size() == 1 && closestEntity.getChatDialogue().getChatOptions().get(0).isPressed()) {
+//                    if (hasInteracted) {
+//                        if (playerIsNearNpc()) {
+//                            // Do the logic and set it to un-pressed and interact
+//                            closestEntity.interact();
+//                            Handler.get().playEffect("ui/ui_button_click.ogg");
+//                            hasInteracted = false;
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         if (closestEntity != null && closestEntity.getChatDialogue() != null) {
             closestEntity.getChatDialogue().tick();
@@ -304,7 +299,6 @@ public class Player extends Creature {
 
         // If the player moves, close the shops and chat dialogue
         if (closestEntity != null && isMoving && closestEntity.getChatDialogue() != null) {
-            Entity.isCloseToNPC = false;
             hasInteracted = false;
 
             closestEntity.setChatDialogue(null);
@@ -940,10 +934,6 @@ public class Player extends Creature {
         return element.getLevel();
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 
     /*
      * Handles movement, based on keyboard input (WASD)
@@ -974,7 +964,6 @@ public class Player extends Creature {
 
         if (xMove != 0 || yMove != 0) {
             isMoving = true;
-            hasMoved = true;
         }
     }
 
@@ -1226,7 +1215,7 @@ public class Player extends Creature {
      */
     @Override
     public void interact() {
-        log.info("Oops, we're interacting with ourself. That's odd!");
+        log.error("Oops, we're interacting with ourself. That's odd!");
     }
 
     // Getters & Setters

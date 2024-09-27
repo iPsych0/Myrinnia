@@ -169,10 +169,6 @@ public class ClamFishingSpot extends Entity {
         Handler.get().getWorld().getEntityManager().addEntity(new ClamFishingSpot(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 
     public boolean isFishing() {
         return isFishing;

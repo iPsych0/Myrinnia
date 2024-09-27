@@ -45,8 +45,4 @@ public class RopeLadderTile extends Entity {
 
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

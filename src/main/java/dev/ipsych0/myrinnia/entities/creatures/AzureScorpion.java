@@ -97,8 +97,4 @@ public class AzureScorpion extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new AzureScorpion(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

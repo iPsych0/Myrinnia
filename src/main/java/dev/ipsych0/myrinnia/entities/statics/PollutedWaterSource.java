@@ -58,7 +58,7 @@ public class PollutedWaterSource extends GenericObject {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 3:
                 if (!questProgressed) {

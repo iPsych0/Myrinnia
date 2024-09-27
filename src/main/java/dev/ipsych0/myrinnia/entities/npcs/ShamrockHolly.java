@@ -56,7 +56,7 @@ public class ShamrockHolly extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
 
         }

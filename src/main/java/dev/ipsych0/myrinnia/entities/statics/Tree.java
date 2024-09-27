@@ -312,10 +312,6 @@ public class Tree extends Entity {
         Handler.get().getWorld().getEntityManager().addEntity(new Tree(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 
     public boolean isWoodcutting() {
         return isWoodcutting;

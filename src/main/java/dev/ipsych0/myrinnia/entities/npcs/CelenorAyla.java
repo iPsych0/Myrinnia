@@ -43,7 +43,7 @@ public class CelenorAyla extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 0:
                 if (quest.getQuestSteps().get(2).isFinished() && !quest.getQuestSteps().get(3).isFinished()) {

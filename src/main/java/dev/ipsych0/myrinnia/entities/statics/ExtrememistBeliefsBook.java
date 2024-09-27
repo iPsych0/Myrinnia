@@ -87,7 +87,7 @@ public class ExtrememistBeliefsBook extends GenericObject {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 2:
                 if (name.equalsIgnoreCase(book1)) {

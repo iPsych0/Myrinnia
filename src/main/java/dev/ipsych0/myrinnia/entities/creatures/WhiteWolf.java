@@ -130,8 +130,4 @@ public class WhiteWolf extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new WhiteWolf(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

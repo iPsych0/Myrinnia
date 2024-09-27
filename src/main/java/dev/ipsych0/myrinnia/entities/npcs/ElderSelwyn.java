@@ -78,7 +78,7 @@ public class ElderSelwyn extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 5:
                 if (quest.getState() == QuestState.NOT_STARTED) {

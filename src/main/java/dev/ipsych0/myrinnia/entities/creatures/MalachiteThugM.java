@@ -102,8 +102,4 @@ public class MalachiteThugM extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new MalachiteThugM(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

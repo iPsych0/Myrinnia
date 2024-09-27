@@ -44,8 +44,4 @@ public class ShamrockStatue extends Entity {
 
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

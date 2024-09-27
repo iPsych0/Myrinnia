@@ -38,8 +38,4 @@ public class GenericNPC extends Creature {
 
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

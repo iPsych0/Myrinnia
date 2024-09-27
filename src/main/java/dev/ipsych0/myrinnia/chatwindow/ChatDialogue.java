@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.chatwindow;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
@@ -26,13 +27,16 @@ public class ChatDialogue implements Serializable {
     private ChatOption chosenOption;
     private Rectangle bounds;
     private UIManager uiManager;
+    private Entity entity;
 
-    public ChatDialogue(String[] menuOptions) {
+    public ChatDialogue(Entity entity, String[] menuOptions) {
+        this.entity = entity;
+        this.menuOptions = menuOptions;
+
         this.width = Handler.get().getChatWindow().getWidth();
         this.height = Handler.get().getChatWindow().getHeight();
         this.x = Handler.get().getWidth() - width - 8;
         this.y = Handler.get().getHeight() - height - 16;
-        this.menuOptions = menuOptions;
 
         chatOptions = new ArrayList<>();
         uiManager = new UIManager();
@@ -65,8 +69,9 @@ public class ChatDialogue implements Serializable {
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !Handler.get().getMouseManager().isDragged()) {
                     hasBeenPressed = false;
                     chosenOption = option;
-                    Player.hasInteracted = false;
                     MouseManager.justClosedUI = true;
+                    entity.interact();
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
                 }
             } else {
                 option.setHovering(false);

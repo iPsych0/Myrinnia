@@ -96,8 +96,4 @@ public class AzureBat extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new AzureBat(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

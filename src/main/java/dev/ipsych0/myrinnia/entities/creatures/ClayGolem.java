@@ -124,8 +124,4 @@ public class ClayGolem extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new ClayGolem(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

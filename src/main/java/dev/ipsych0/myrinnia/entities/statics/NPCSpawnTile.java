@@ -255,8 +255,4 @@ public class NPCSpawnTile extends Creature {
 
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

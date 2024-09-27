@@ -60,8 +60,4 @@ public class Banker extends Creature implements Serializable {
         Handler.get().getWorld().getEntityManager().addEntity(new Banker(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

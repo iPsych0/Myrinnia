@@ -60,9 +60,5 @@ public class GenericShopkeeper extends ShopKeeper {
         Handler.get().getWorld().getEntityManager().addEntity(new GenericShopkeeper(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 
 }

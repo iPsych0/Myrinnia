@@ -38,8 +38,4 @@ public class AnchialineCaveEntrance extends GenericObject {
 
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

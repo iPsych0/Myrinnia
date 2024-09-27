@@ -78,8 +78,4 @@ public class GoblinoShaman extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new GoblinoShaman(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

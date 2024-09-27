@@ -54,7 +54,7 @@ public class PortAzureMary extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 0:
                 if (Handler.get().questInProgress(QuestList.GatheringYourStuff) && quest.getQuestSteps().get(0).isFinished() && Handler.get().playerHasItem(Item.mackerelFish, 5)) {

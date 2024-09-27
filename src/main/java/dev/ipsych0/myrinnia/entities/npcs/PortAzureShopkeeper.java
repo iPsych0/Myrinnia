@@ -5,20 +5,17 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
-import dev.ipsych0.myrinnia.quests.QuestStep;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import lombok.extern.slf4j.Slf4j;
 
-import java.awt.*;
-import java.util.List;
+import java.awt.Graphics2D;
 import java.util.Map;
+import java.util.function.Supplier;
 
 @Slf4j
 public class PortAzureShopkeeper extends ShopKeeper {
 
-
-    private static final long serialVersionUID = -3340636213278064668L;
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
     private Quest quest = Handler.get().getQuest(QuestList.GettingStarted);
@@ -26,6 +23,34 @@ public class PortAzureShopkeeper extends ShopKeeper {
     public PortAzureShopkeeper(float x, float y, int width, int height, Map<String, String> props) {
         super(x, y, width, height, props);
         shopName = "Port Azure's General Store";
+
+        chatConditions = Map.of(
+                "mayorQuest", () -> quest.getState() == QuestState.IN_PROGRESS && !quest.getQuestSteps().getFirst().isFinished(),
+                "openShop", () -> {
+                    if (!ShopWindow.isOpen) {
+                        ShopWindow.open();
+                    }
+                    return false;
+                }
+        );
+
+        chatActions = Map.of(
+                "giveChosenItem", () -> {
+                    if (chatDialogue.getChosenOption().getOptionID() == 0) {
+                        Handler.get().giveItem(Item.simpleStaff, 1);
+                        Handler.get().getQuest(QuestList.WaveGoodbye).addNewCheck("chosenItem", Item.simpleStaff);
+                    } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
+                        Handler.get().giveItem(Item.simpleBow, 1);
+                        Handler.get().getQuest(QuestList.WaveGoodbye).addNewCheck("chosenItem", Item.simpleBow);
+                    } else if (chatDialogue.getChosenOption().getOptionID() == 2) {
+                        Handler.get().giveItem(Item.simpleSword, 1);
+                        Handler.get().getQuest(QuestList.WaveGoodbye).addNewCheck("chosenItem", Item.simpleSword);
+                    }
+                    Handler.get().addTip(new TutorialTip("Right-click an item in your inventory to equip it."));
+                    Handler.get().getQuest(QuestList.GettingStarted).nextStep();
+                }
+        );
+
     }
 
     @Override
@@ -45,27 +70,6 @@ public class PortAzureShopkeeper extends ShopKeeper {
     }
 
     @Override
-    protected boolean choiceConditionMet(String condition) {
-        switch (condition) {
-            case "mayorQuest":
-                List<QuestStep> steps = quest.getQuestSteps();
-                if (quest.getState() == QuestState.IN_PROGRESS && !steps.get(0).isFinished()) {
-                    return true;
-                }
-                break;
-            case "openShop":
-                if (!ShopWindow.isOpen) {
-                    ShopWindow.open();
-                }
-                break;
-            default:
-                System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
-                return false;
-        }
-        return false;
-    }
-
-    @Override
     public void postRender(Graphics2D g) {
 
     }
@@ -73,25 +77,6 @@ public class PortAzureShopkeeper extends ShopKeeper {
     @Override
     public void respawn() {
         Handler.get().getWorld().getEntityManager().addEntity(new PortAzureShopkeeper(xSpawn, ySpawn, width, height, props));
-    }
-
-    @Override
-    protected void updateDialogue() {
-        switch (speakingTurn) {
-            case 5:
-                if (chatDialogue.getChosenOption().getOptionID() == 0) {
-                    Handler.get().giveItem(Item.simpleStaff, 1);
-                    Handler.get().getQuest(QuestList.WaveGoodbye).addNewCheck("chosenItem", Item.simpleStaff);
-                } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
-                    Handler.get().giveItem(Item.simpleBow, 1);
-                    Handler.get().getQuest(QuestList.WaveGoodbye).addNewCheck("chosenItem", Item.simpleBow);
-                } else if (chatDialogue.getChosenOption().getOptionID() == 2) {
-                    Handler.get().giveItem(Item.simpleSword, 1);
-                    Handler.get().getQuest(QuestList.WaveGoodbye).addNewCheck("chosenItem", Item.simpleSword);
-                }
-                Handler.get().addTip(new TutorialTip("Right-click an item in your inventory to equip it."));
-                Handler.get().getQuest(QuestList.GettingStarted).nextStep();
-        }
     }
 
 }

@@ -120,8 +120,4 @@ public class Hornetta extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new Hornetta(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

@@ -146,8 +146,4 @@ public class MalachiteThugL extends Creature {
 
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

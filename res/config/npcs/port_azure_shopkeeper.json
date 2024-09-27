@@ -52,7 +52,8 @@
     {
       "id": 5,
       "text": "Excellent choice! I hope you enjoy your weapon and stay safe! You should probably report back to the mayor now.",
-      "nextId": -1
+      "nextId": -1,
+      "action": "giveChosenItem"
     },
     {
       "id": 6,

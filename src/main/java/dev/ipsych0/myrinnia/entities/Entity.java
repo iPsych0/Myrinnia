@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 @Slf4j
 @Getter
@@ -46,7 +47,6 @@ public abstract class Entity implements Serializable {
     protected Rectangle bounds;
     protected Rectangle fullBounds;
     protected Rectangle interactionBounds;
-    public static boolean isCloseToNPC = false;
     protected double health;
     protected static final int DEFAULT_HEALTH = 50;
     protected int maxHealth = DEFAULT_HEALTH;
@@ -63,6 +63,8 @@ public abstract class Entity implements Serializable {
     protected int speakingTurn;
     protected int speakingCheckpoint;
     protected transient ChatDialogue chatDialogue;
+    protected Map<String, Supplier<Boolean>> chatConditions = new HashMap<>();
+    protected Map<String, Runnable> chatActions = new HashMap<>();
     protected boolean overlayDrawn = true;
     private int lastHit;
     protected boolean hit;
@@ -86,7 +88,6 @@ public abstract class Entity implements Serializable {
     protected Map<String, String> props;
     protected int maxDropTableWeight;
     protected int emptyWeight;
-
 
     protected Entity(double x, double y, int width, int height, Map<String, String> props) {
         this.x = x;
@@ -127,7 +128,21 @@ public abstract class Entity implements Serializable {
 
     public abstract void respawn();
 
-    protected abstract void updateDialogue();
+    /**
+     * Allows execution of actions on the dialogue the player is CURRENTLY at.
+     */
+    protected void onDialogueShown(String action) {
+        if (action != null) {
+            chatActions.get(action).run();
+        }
+    }
+
+    /**
+     * Subclasses can define chatConditions to verify if the player can proceed in the interaction
+     */
+    protected boolean choiceConditionMet(String condition) {
+        return chatConditions.getOrDefault(condition, () -> false).get();
+    }
 
     protected String[] getEntityInfo(Entity hoveringEntity) {
         if (script != null || isNpc) {
@@ -171,7 +186,7 @@ public abstract class Entity implements Serializable {
                 String text = split[i];
                 // Automatically go to the next ID, unless we're at the last index, then go to -1
                 int nextId = (i == split.length - 1) ? -1 : (i + 1);
-                dialogues.add(new Dialogue(i, nextId, text.trim(), null, null));
+                dialogues.add(new Dialogue(i, nextId, text.trim(), null, null, null));
             }
             script = new Script(dialogues);
         }
@@ -221,19 +236,12 @@ public abstract class Entity implements Serializable {
         }
 
         if (closest == null) {
-            isCloseToNPC = false;
             return false;
         }
 
-        if (closest.isNear(closest)) {
-            // Interact with the respective speaking turn
-            isCloseToNPC = true;
-            return true;
-        } else {
-            // Out of range
-            isCloseToNPC = false;
-            return false;
-        }
+        // Interact with the respective speaking turn
+        // Out of range
+        return closest.isNear(closest);
     }
 
     public boolean isNear(Entity closest) {
@@ -768,9 +776,13 @@ public abstract class Entity implements Serializable {
             return;
         }
 
-        // If there is only text to be displayed, advance to the next conversation
+        /*
+         * Text only dialogue
+         */
+        String action = script.getDialogues().get(speakingTurn).getAction();
+
         if (script.getDialogues().get(speakingTurn).getText() != null) {
-            updateDialogue();
+            this.onDialogueShown(action);
             if (speakingTurn == -1) {
                 chatDialogue = null;
                 if (speakingCheckpoint != 0) {
@@ -783,8 +795,9 @@ public abstract class Entity implements Serializable {
             if (script.getDialogues().get(speakingTurn).getText() == null) {
                 return;
             }
-            chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
+            chatDialogue = new ChatDialogue(this, new String[]{script.getDialogues().get(speakingTurn).getText()});
             chatDialogue.setChosenOption(null);
+
             // If there is a condition to proceed, check the condition
             if (script.getDialogues().get(speakingTurn).getChoiceCondition() != null) {
                 ChoiceCondition choiceCondition = script.getDialogues().get(speakingTurn).getChoiceCondition();
@@ -833,8 +846,8 @@ public abstract class Entity implements Serializable {
             for (int i = 0; i < choiceList.size(); i++) {
                 choices[i] = choiceList.get(i).getText();
             }
-            chatDialogue = new ChatDialogue(choices);
-            updateDialogue();
+            chatDialogue = new ChatDialogue(this, choices);
+            onDialogueShown(action);
         }
     }
 
@@ -862,17 +875,6 @@ public abstract class Entity implements Serializable {
         }
         // The drop table must be empty
         Handler.get().sendMsg("Drop table for " + getName() + " is empty.");
-    }
-
-    /**
-     * MUST be overriden in the sub-class for specific behaviour!
-     *
-     * @param condition - The choice to check condition for
-     * @return true if condition is met, false if condition is not met
-     */
-    protected boolean choiceConditionMet(String condition) {
-        log.error("SHOULD NOT APPEAR: OVERRIDE CHOICE CONDITION CHECK IN SUBCLASS!");
-        return false;
     }
 
     public int getHealth() {

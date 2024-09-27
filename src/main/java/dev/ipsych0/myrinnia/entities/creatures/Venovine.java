@@ -101,8 +101,4 @@ public class Venovine extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new Venovine(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

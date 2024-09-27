@@ -86,8 +86,4 @@ public class BountyBoardShamrock extends Entity implements BountyBoard {
 
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

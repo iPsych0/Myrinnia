@@ -233,10 +233,6 @@ public class Hedgehog extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new Hedgehog(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 
     @Override
     protected void combatStateManager() {

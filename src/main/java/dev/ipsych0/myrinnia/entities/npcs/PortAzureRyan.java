@@ -75,7 +75,7 @@ public class PortAzureRyan extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         Bounty bounty = BountyManager.get().getBountyByZoneAndTask(Zone.PortAzure, "Cut the Crab");
         switch (speakingTurn) {
             case 0:

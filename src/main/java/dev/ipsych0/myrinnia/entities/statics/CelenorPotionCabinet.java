@@ -128,7 +128,7 @@ public class CelenorPotionCabinet extends Entity {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 3:
                 PotionSort.isOpen = true;

@@ -111,8 +111,4 @@ public class Goat extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new Goat(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

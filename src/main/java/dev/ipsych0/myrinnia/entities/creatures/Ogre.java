@@ -121,8 +121,4 @@ public class Ogre extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new Ogre(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

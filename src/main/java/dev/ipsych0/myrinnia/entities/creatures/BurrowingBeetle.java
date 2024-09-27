@@ -243,10 +243,6 @@ public class BurrowingBeetle extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new BurrowingBeetle(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 
     /**
      * Manages the different combat states of a Creature (IDLE, PATHFINDING, ATTACKING, BACKTRACKING)

@@ -149,8 +149,4 @@ public class CaveTroll extends Creature {
         }
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

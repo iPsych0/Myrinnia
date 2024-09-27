@@ -115,8 +115,4 @@ public class ForgottenGhost extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new ForgottenGhost(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

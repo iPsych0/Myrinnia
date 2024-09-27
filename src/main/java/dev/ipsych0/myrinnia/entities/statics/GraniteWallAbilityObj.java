@@ -82,10 +82,6 @@ public class GraniteWallAbilityObj extends Entity {
 
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 
     public double getDegrees() {
         return degrees;

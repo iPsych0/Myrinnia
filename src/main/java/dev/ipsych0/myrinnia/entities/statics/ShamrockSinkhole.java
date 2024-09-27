@@ -135,8 +135,4 @@ public class ShamrockSinkhole extends Entity {
         Handler.get().getWorld().getEntityManager().addEntity(new ShamrockSinkhole(x, y, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

@@ -51,8 +51,4 @@ public class ShamrockGuard extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new ShamrockGuard(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

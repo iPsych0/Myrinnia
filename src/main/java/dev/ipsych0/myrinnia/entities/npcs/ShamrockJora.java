@@ -37,8 +37,4 @@ public class ShamrockJora extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new ShamrockJora(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

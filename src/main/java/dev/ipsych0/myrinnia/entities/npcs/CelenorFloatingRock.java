@@ -106,7 +106,7 @@ public class CelenorFloatingRock extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         double xPos = player.getX();
         double yPos = player.getY();
 

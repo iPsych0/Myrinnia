@@ -57,7 +57,7 @@ public class CelenorShrineBook extends GenericObject {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 2:
                 bookUI.setOpen(true);

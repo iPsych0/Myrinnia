@@ -48,7 +48,7 @@ public class CelenorNyvolas extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 5:
                 if (!Handler.get().playerHasItem(Item.rake, 1)) {

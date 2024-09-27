@@ -127,8 +127,4 @@ public class AzureCrab extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(crab);
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

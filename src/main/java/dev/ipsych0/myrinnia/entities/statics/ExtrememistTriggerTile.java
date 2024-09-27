@@ -101,8 +101,4 @@ public class ExtrememistTriggerTile extends GenericObject {
 
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

@@ -46,7 +46,7 @@ public class StozarCurator extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 0:
                 if (player.getY() < this.getY()) {

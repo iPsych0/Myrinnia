@@ -32,10 +32,6 @@ public class CaptainNeil extends Creature {
                 (int) (y - Handler.get().getGameCamera().getyOffset()), null);
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 
     @Override
     public void postRender(Graphics2D g) {

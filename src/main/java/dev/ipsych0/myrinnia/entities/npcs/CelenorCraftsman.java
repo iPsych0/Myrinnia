@@ -64,7 +64,7 @@ public class CelenorCraftsman extends ShopKeeper {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 4:
                 quest.addNewCheck("clue1", true);

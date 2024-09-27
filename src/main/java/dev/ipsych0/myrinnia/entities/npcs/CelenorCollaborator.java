@@ -75,6 +75,6 @@ public class CelenorCollaborator extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
     }
 }

@@ -52,7 +52,7 @@ public class CaptainIsaac extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 0:
                 Choice option1 = script.getDialogues().get(1).getOptions().get(0);

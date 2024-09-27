@@ -136,7 +136,7 @@ public class Sheep extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 2:
                 sheared = true;

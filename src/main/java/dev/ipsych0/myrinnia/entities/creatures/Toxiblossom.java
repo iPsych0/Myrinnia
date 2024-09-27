@@ -94,8 +94,4 @@ public class Toxiblossom extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new Toxiblossom(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

@@ -78,7 +78,7 @@ public class PortAzureDouglas extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 5:
                 speakingCheckpoint = 5;

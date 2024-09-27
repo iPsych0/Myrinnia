@@ -66,7 +66,7 @@ public class CelenorNevarth extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 3:
                 if (!hasMoved) {

@@ -66,10 +66,6 @@ public class GenericItemObject extends Entity {
         Handler.get().getWorld().getEntityManager().addEntity(new GenericItemObject(x, y, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 
     @Override
     public void interact() {
@@ -79,9 +75,9 @@ public class GenericItemObject extends Entity {
                 return;
             }
             if (items.size() == 1) {
-                chatDialogue = new ChatDialogue(new String[]{"You found '" + items.get(0).getItem().getName() + "' in the " + name.toLowerCase() + "."});
+                chatDialogue = new ChatDialogue(this, new String[]{"You found '" + items.get(0).getItem().getName() + "' in the " + name.toLowerCase() + "."});
             } else {
-                chatDialogue = new ChatDialogue(new String[]{"You found some items in the " + name.toLowerCase() + "."});
+                chatDialogue = new ChatDialogue(this, new String[]{"You found some items in the " + name.toLowerCase() + "."});
             }
             for (ItemStack is : items) {
                 Handler.get().giveItem(is.getItem(), is.getAmount());
@@ -92,7 +88,7 @@ public class GenericItemObject extends Entity {
                 chatDialogue = null;
                 return;
             }
-            chatDialogue = new ChatDialogue(new String[]{"There is nothing here."});
+            chatDialogue = new ChatDialogue(this, new String[]{"There is nothing here."});
         }
     }
 }

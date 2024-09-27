@@ -48,7 +48,7 @@ public class StozarAncientRocks extends GenericObject {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         if (speakingTurn == 3) {
             AbilityManager.abilityMap.get(GraniteWallAbility.class).setUnlocked(true);
         }

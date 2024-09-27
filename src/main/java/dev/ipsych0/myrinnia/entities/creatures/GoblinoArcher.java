@@ -78,8 +78,4 @@ public class GoblinoArcher extends Creature {
         Handler.get().getWorld().getEntityManager().addEntity(new GoblinoArcher(xSpawn, ySpawn, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

@@ -55,8 +55,4 @@ public class AemirPond extends Entity {
         Handler.get().getWorld().getEntityManager().addEntity(new AemirPond(x, y, width, height, props));
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

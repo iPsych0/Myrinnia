@@ -49,7 +49,7 @@ public class ShamrockAaron extends Creature {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 0:
                 Object defeated = Handler.get().getQuest(QuestList.WeDelvedTooDeep).getCheckValueWithDefault("trollDefeated", false);

@@ -64,7 +64,7 @@ public class CraftingStation extends Entity {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected void onDialogueShown(String action) {
         switch (speakingTurn) {
             case 0:
                 if (Handler.get().getQuest(QuestList.PreparingYourJourney).getState() == QuestState.NOT_STARTED ||

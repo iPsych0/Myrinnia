@@ -235,8 +235,4 @@ public class Projectile extends Creature implements Serializable {
 
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 }

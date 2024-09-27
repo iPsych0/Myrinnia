@@ -203,10 +203,6 @@ public class FarmingPatch extends GenericObject {
 
     }
 
-    @Override
-    protected void updateDialogue() {
-
-    }
 
     public void plant(ItemStack seeds) {
         if (resource != null) {
