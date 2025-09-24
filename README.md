@@ -3,18 +3,7 @@
 ## Introduction
 Elements of Myrinnia is a 2D adventure action RPG that takes place in the magic-filled fantasy world of Myrinnia. As an adventurer, you can tailor your own experience by choosing the skills and elements you want to train. Combat is based on the classical four elements: Air, Earth, Fire, Water. There are a plethora of skills for you to train, which may assist you in combat or complement the rich number of lore-supporting quests that Myrinnia has to offer. With puzzles and secrets throughout the world, there is plenty for you to explore in Myrinnia!  
 
-### How to play  
-
-#### Building from source code
-
-1. `git clone https://github.com/iPsych0/Myrinnia.git`
-2. Elements of Myrinnia currently uses Java 21
-3. Open the project in your IDE of choice.
-4. Build & compile: `mvn clean package`
-5. Navigate to `./src/main/java/dev/ipsych0/myrinnia/Launcher.java`
-6. Run the main method, which will boot the application and make it playable.  
-
-#### Download the latest version (currently only supports Windows artifacts, though you can build from source on MacOS/Linux)
+#### Download the latest version (currently only supports Windows artifacts, though you can build from source on MacOS/Linux, see instructions [below](#how-to-play))
 https://github.com/iPsych0/Myrinnia/releases/
 
 ## Gameplay footage
@@ -46,6 +35,17 @@ https://github.com/user-attachments/assets/b67223a1-8b14-4e28-8380-e15299265fd1
 ### Solve puzzles & mysteries
 
 https://github.com/user-attachments/assets/6f94022d-12ba-4ad1-b7b7-1ea60f3be965
+
+### How to play  
+
+#### Building from source code
+
+1. `git clone https://github.com/iPsych0/Myrinnia.git`
+2. Elements of Myrinnia currently uses Java 21
+3. Open the project in your IDE of choice.
+4. Build & compile: `mvn clean package`
+5. Navigate to `./src/main/java/dev/ipsych0/myrinnia/Launcher.java`
+6. Run the main method, which will boot the application and make it playable.  
   
 # Game Design Document  
 ###### Version: 0.3
