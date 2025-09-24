@@ -1,4 +1,5 @@
 # Elements of Myrinnia  
+
 ## Introduction
 Elements of Myrinnia is a 2D adventure action RPG that takes place in the magic-filled fantasy world of Myrinnia. As an adventurer, you can tailor your own experience by choosing the skills and elements you want to train. Combat is based on the classical four elements: Air, Earth, Fire, Water. There are a plethora of skills for you to train, which may assist you in combat or complement the rich number of lore-supporting quests that Myrinnia has to offer. With puzzles and secrets throughout the world, there is plenty for you to explore in Myrinnia!  
 
@@ -15,6 +16,36 @@ Elements of Myrinnia is a 2D adventure action RPG that takes place in the magic-
 
 #### Download the latest version (currently only supports Windows artifacts, though you can build from source on MacOS/Linux)
 https://github.com/iPsych0/Myrinnia/releases/
+
+## Gameplay footage
+
+### Explore a variety of interesting zones
+
+https://github.com/user-attachments/assets/aaf334a5-ceac-4207-9329-ab8942e48f0e
+
+https://github.com/user-attachments/assets/baca6efb-a489-4e22-b640-c43222cf8965
+
+### Skilling
+
+https://github.com/user-attachments/assets/f88fde36-d523-4dcf-a2c5-e76606b116a4
+
+### Crafting
+
+https://github.com/user-attachments/assets/a74d3f16-d7ee-4395-9374-c1477713e64d
+
+### Combat 
+
+https://github.com/user-attachments/assets/f5f26309-36ba-4590-9923-1103170692e7
+
+https://github.com/user-attachments/assets/df3a04bb-16e2-4204-8e50-4c04a25f23c5
+
+### Advanced abilities
+
+https://github.com/user-attachments/assets/b67223a1-8b14-4e28-8380-e15299265fd1
+
+### Solve puzzles & mysteries
+
+https://github.com/user-attachments/assets/6f94022d-12ba-4ad1-b7b7-1ea60f3be965
   
 # Game Design Document  
 ###### Version: 0.3
