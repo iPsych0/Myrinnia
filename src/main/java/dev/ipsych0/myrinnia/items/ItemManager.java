@@ -6,7 +6,11 @@ import dev.ipsych0.myrinnia.items.ui.PickupMenu;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Text;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Stroke;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -183,6 +187,9 @@ public class ItemManager implements Serializable {
     }
 
     public void addItem(Item i, boolean isWorldSpawn) {
+        if (i == null) {
+            return;
+        }
         items.add(i);
         if (!isWorldSpawn) {
             added.add(i);

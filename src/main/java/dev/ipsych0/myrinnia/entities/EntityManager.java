@@ -16,7 +16,12 @@ import dev.ipsych0.myrinnia.utils.Text;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -78,7 +83,7 @@ public class EntityManager implements Serializable {
             // Update buffs, conditions and immunities
             if (e.isActive()) {
                 if (e instanceof Creature creature) {
-                    Creature c =creature;
+                    Creature c = creature;
 
                     if (c.isAttackable()) {
                         updateBuffsCondisAndImmunities(c);
@@ -427,6 +432,9 @@ public class EntityManager implements Serializable {
     }
 
     public void addEntity(Entity e) {
+        if (e == null) {
+            return;
+        }
         entities.add(e);
     }
 

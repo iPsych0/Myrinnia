@@ -198,6 +198,7 @@ public class TmjMapLoader implements MapLoader {
                     if (i == packages.length - 1) {
                         log.error("Exception", e);
                         log.error("Could not find Entity '{}' in any package. (World: {})", className, this.worldPath);
+                        return null;
                     }
                 }
             }
@@ -229,7 +230,7 @@ public class TmjMapLoader implements MapLoader {
             }
             return i;
         } catch (Exception e) {
-            log.error("Exception", e);
+            log.error("Could not load item", e);
         }
         return null;
     }
